@@ -1,16 +1,17 @@
-void test_settings(){
+/*
+void network_test_settings(){
  size(1800, 1000); 
 }
 
-void test_setup(){
+void network_test_setup(){
   background(255); 
 }
 
-void test_draw(){
+void network_test_draw(){
   draw2wayBigArrow(300, 300, 400, 200, 100, 50, 0, "", 2, 255, "concrete", 255);
 }
 
-void testBriefFormats(){
+void network_test_BriefFormats(){
   // L2
   drawEth(100, 100, "concrete", "concrete", false);
   drawEth(100, 200, "concrete", "concrete", true);
@@ -39,3 +40,4 @@ void testBriefFormats(){
 void testFocusFormats(){
   drawEthDetail(100, 100, "concrete", "concrete", "0000.0000.0101", "0000.0000.0102", false);
 }
+*/

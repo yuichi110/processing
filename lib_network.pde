@@ -11,10 +11,9 @@ void network_setup(){
  brief format
 */
 
-
 // L2
-
-void drawEth(int x, int y, String colorEth, String colorData, boolean isReverse){
+/*
+void getPG_network_bf_Eth(String colorEth, String colorData, boolean isReverse){
   if(isReverse){
     drawRectText(x , y, 50, 50, 0, "black", 2, 255, colorEth, 255, "Eth", 24, "black", 255, 7, 35); 
     drawRectText(x + 50, y, 100, 50, 0, "black", 2, 255, colorData, 255, "Data", 24, "black", 255, 23, 35);
@@ -108,12 +107,13 @@ void drawTransport(int x, int y, String colorTransport, String colorData, boolea
 void drawData(int x, int y, String colorData){
   drawRectText(x, y, 100, 50, 0, "black", 2, 255, colorData, 255, "Data", 24, "black", 255, 20, 35);
 }
-
+*/
 
 /*
  Forcus format
 */
 
+/*
 void drawEthDetail(int x, int y, String colorEth, String colorData, String dstMac, String srcMac, boolean isReverse){
   if(isReverse){
     drawRectText(x , y, 50, 50, 0, "black", 2, 255, colorEth, 255, "Eth", 24, "black", 255, 7, 35); 
@@ -145,3 +145,5 @@ void drawEthIpDetailDot1Q(){
 void drawIpDetail(){
   
 }
+
+*/
