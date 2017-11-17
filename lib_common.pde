@@ -35,14 +35,21 @@ final int WHITESMOKE = 0;
 final int TERRACOTTA = 0;
 
 // SAVE
-String SAVE_MODE_BACKGROUND = "save_bg";
-String SAVE_MODE_TRANSPARENT = "save_transparent";
+final int SAVE_MODE_BACKGROUND = 0;
+final int SAVE_MODE_TRANSPARENT = 1;
+boolean common_save_enabled = false;
+int common_save_mode = 0;
+
+// GRID ENABLED
+boolean common_guidegrid_enabled = false;
+
 
 /*
 UTILITY
 */
 
-void move(PGraphics pg, PGraphics pgb, int x1, int y1, int r1, int x2, int y2, int r2, 
+void move(PGraphics pg, PGraphics pgb, 
+          int x1, int y1, int r1, int x2, int y2, int r2, 
           int currentFrame, int startFrame, int endFrame){
             
   if(currentFrame < startFrame) return;
@@ -64,10 +71,18 @@ void move(PGraphics pg, PGraphics pgb, int x1, int y1, int r1, int x2, int y2, i
   }
 }
 
-void saveGraphics(PGraphics pg, String fpath){
-  if(PROCESSING_SAVE){
-    String fileName = frameCount + ".png";
-    save(fileName);
+void saveCurrentFrame(PGraphics pg, String fileName){
+  if(!common_save_enabled) return;
+  
+  switch(common_save_mode){
+    case SAVE_MODE_BACKGROUND:
+      save(fileName);
+      break;
+    case SAVE_MODE_TRANSPARENT:
+      pg.save(fileName);
+      break;
+    default:
+      println("ERROR: saveCurrentFrame");
   }
 }
 
@@ -293,30 +308,28 @@ PGraphics getPG_2wayBigArrow(int width_, int height_,
   pg.noStroke();
   setFill(pg, fillColor, fillAlpha);
 
-
-  
-  int t1x1 = arrowWidth;
-  int t1y1 = 0;
+  int t1x1 = x + arrowWidth;
+  int t1y1 = y;
   int t1x2 = t1x1;
-  int t1y2 = height_;
-  int t1x3 = 0;
-  int t1y3 = height_/2;
+  int t1y2 = y + h;
+  int t1x3 = x;
+  int t1y3 = y + h/2;
   pg.triangle(t1x1, t1y1, t1x2, t1y2, t1x3, t1y3);
   
-  int t2x1 = width_ - arrowWidth;
-  int t2y1 = 0;
+  int t2x1 = x + w - arrowWidth;
+  int t2y1 = y;
   int t2x2 = t2x1;
-  int t2y2 = height_;  
-  int t2x3 = width_;
-  int t2y3 = height_/2;
+  int t2y2 = y + h;  
+  int t2x3 = x + w;
+  int t2y3 = y + h/2;
   pg.triangle(t2x1, t2y1, t2x2, t2y2, t2x3, t2y3);
   
-  int rx1 = arrowWidth;
-  int ry1 = arrowHeight;
-  int rx2 = width_ - arrowWidth;
+  int rx1 = x + arrowWidth;
+  int ry1 = y + arrowHeight;
+  int rx2 = x + w - arrowWidth;
   int ry2 = ry1;
   int rx3 = rx2;
-  int ry3 = height_ - arrowHeight;
+  int ry3 = y + h - arrowHeight;
   int rx4 = rx1;
   int ry4 = ry3;
   int rectWidth = rx2 - rx1;
@@ -347,23 +360,29 @@ PGraphics getPG_cylinder(int width_, int height_, int arcHeight,
                          int strokeColor, int strokeWeight_, int strokeAlpha,
                          int bodyColor, int ellipseColor, int bodyAlpha){   
                     
-  PGraphics pg = createGraphics(width_ + 10, height_ + 10);
+  PGraphics pg = createGraphics(width_, height_);
   pg.beginDraw();
   
+  // inside size
+  int x = ceil(strokeWeight_/2);
+  int y = ceil(strokeWeight_/2);
+  int w = width_ - ceil(strokeWeight_) - 1;
+  int h = height_ - ceil(strokeWeight_) - 1;
+  
   // bottom ellipse
-  int e1_x = width_/2;
-  int e1_y = height_ - arcHeight;
-  int e1_w = width_;
+  int e1_x = x + w/2;
+  int e1_y = y + h - arcHeight;
+  int e1_w = w;
   int e1_h = arcHeight;
   setStroke(pg, strokeColor, strokeWeight_, strokeAlpha);
   setFill(pg, bodyColor, bodyAlpha);
   pg.ellipse(e1_x, e1_y, e1_w, e1_h);
   
   // middle rectangle
-  int r_x = 0;
-  int r_y = arcHeight;
-  int r_w = width_;
-  int r_h = height_ - (2 * arcHeight);
+  int r_x = x;
+  int r_y = y + arcHeight;
+  int r_w = w;
+  int r_h = h - (2 * arcHeight);
   pg.noStroke();
   pg.rect(r_x, r_y, r_w, r_h);
   setStroke(pg, strokeColor, strokeWeight_, strokeAlpha);
@@ -372,7 +391,7 @@ PGraphics getPG_cylinder(int width_, int height_, int arcHeight,
   
   // top ellipse
   int e2_x = e1_x;
-  int e2_y = arcHeight;
+  int e2_y = y + arcHeight;
   int e2_w = e1_w;
   int e2_h = e1_h;
   setFill(pg, ellipseColor, bodyAlpha);
@@ -413,7 +432,7 @@ void setStroke(PGraphics pg, int strokeColor, float strokeWeight_, int strokeAlp
   
   switch(strokeColor){
     // BASIC COLORS
-    case 0:
+    case TRANSPARENT:
       pg.noStroke(); break;
     case BLACK:
       pg.stroke(0, strokeAlpha); break;
@@ -526,6 +545,8 @@ void drawGrid(PGraphics pg, int strokeColor, int strokeWeight_,
               int strongStrokeWeight, int strokeAlpha,
               int wPitch, int wsPitch, int hPitch, int hsPitch){  
 
+  if(!common_guidegrid_enabled) return;
+  
   for(int x=wPitch; x<width; x+=wPitch){
       if(x % wsPitch == 0){
           drawLine(pg, x, 0, x, pg.height, strokeColor, strongStrokeWeight, strokeAlpha);

@@ -5,8 +5,12 @@ void common_test_settings(){
 }
 
 void common_test_setup(){
+  // global
+  common_guidegrid_enabled = true;
+  common_save_enabled = false;
+  common_save_mode = SAVE_MODE_TRANSPARENT ;
+  
   frameRate(50);
-  PROCESSING_GRID = false;
   LIB_COMMON_PG_RECT = getPG_rect(200, 100, 0, BLACK, 2, 255, WHITE, 255);
 }
 
@@ -14,6 +18,7 @@ void common_test_draw(){
   background(255); 
   PGraphics pgb = createGraphics(width, height);
   pgb.beginDraw();
+  pgb.fill(255, 100);
   
   // TEST FUNCTION
   //common_test_drawLine(pgb);
@@ -22,12 +27,14 @@ void common_test_draw(){
   common_test_drawOthers(pgb);
   //common_test_drawMove(pgb);
   
-  
-  if(PROCESSING_GRID){
-    drawGrid(pgb, CONCRETE, 1, 2, 255, 50, 250, 50, 250); 
-  }
+  drawGrid(pgb, CONCRETE, 1, 2, 255, 50, 250, 50, 250); 
   pgb.endDraw();
-  image(pgb, 0, 0);    
+  image(pgb, 0, 0);  
+  
+  if(frameCount <= 200){
+    String fileName = String.format("%04d", frameCount) + ".png";
+    saveCurrentFrame(pgb, fileName);
+  }
 }
 
 /*
@@ -65,10 +72,10 @@ void common_test_drawOthers(PGraphics pgb){
 }
 
 void common_test_drawMove(PGraphics pgb){  
-  int currentFrame = frameCount % 60;
+  int currentFrame = frameCount % 100;
   move(LIB_COMMON_PG_RECT, pgb, 200, 200,
        0, 500, 200, 0,
-       currentFrame, 20, 40);
+       currentFrame, 10, 90);
 }
 
 
