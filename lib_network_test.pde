@@ -21,26 +21,13 @@ void network_test_draw(){
   //TEST
   network_test_drawBriefFormatsSmall(pgb);
   
-  drawGrid(pgb, CONCRETE, 1, 2, 255, 50, 250, 50, 250); 
+  drawPG_grid(pgb, CONCRETE, 1, 2, 255, 50, 250, 50, 250); 
   pgb.endDraw();
   image(pgb, 0, 0);  
   if(frameCount <= 200){
     String fileName = String.format("%04d", frameCount) + ".png";
     saveCurrentFrame(pgb, fileName);
   }
-}
-
-void network_test_drawSerialBox(PGraphics pgb){
-  int[] widths = {100, 75, 50, 50};
-  int[] fillColors = {CONCRETE, CONCRETE, CONCRETE, CONCRETE};
-  String[] texts = {"AA", "BB", "CC", "DD"};
-  int[] textXs = {10, 10, 10, 10};
-  int[] textColors = {WHITE, WHITE, WHITE, WHITE};
-  PGraphics pgSerialBox = getPG_serialBox(BLACK, 1.5, 255, 
-                                          widths, 25, fillColors, 
-                                          texts, 18, textXs, 20, textColors);
-
-  pgb.image(pgSerialBox, 100, 100);
 }
 
 void network_test_drawBriefFormats(PGraphics pgb){

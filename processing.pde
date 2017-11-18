@@ -1,16 +1,16 @@
 void settings(){
   // update here
-  network_test_settings();
+  common_test_settings();
 }
 
 void setup(){
   // update here
-  network_test_setup();
+  common_test_setup();
   //String[] fontList = PFont.list();
   //printArray(fontList);
 }
 
 void draw(){
   // update here
-  network_test_draw();  
+  common_test_draw();  
 }

@@ -48,12 +48,20 @@ boolean common_guidegrid_enabled = false;
 UTILITY
 */
 
-void move(PGraphics pg, PGraphics pgb, 
+void movePG(PGraphics pg, PGraphics pgb, 
           int x1, int y1, int r1, int x2, int y2, int r2, 
-          int currentFrame, int startFrame, int endFrame){
+          int currentFrame, int startFrame, int endFrame, boolean debug){
             
   if(currentFrame < startFrame) return;
   if(endFrame < currentFrame) return;
+  
+  if(debug){
+    setPG_stroke(pgb, RED, 2, 255);
+    setPG_fill(pgb, RED, 255);
+    pgb.line(x1, y1, x2, y2);
+    pgb.ellipse(x1, y1, 10, 10);
+    pgb.ellipse(x2, y2, 10, 10);
+  }
   
   float p = (currentFrame - startFrame)/float(endFrame - startFrame);
   int x = x1 + int((x2 - x1) * p);
@@ -63,11 +71,52 @@ void move(PGraphics pg, PGraphics pgb,
   if(r1 == 0 && r2 == 0){
     pgb.image(pg, x, y);
   }else{
+    // rotate at the center of the moving object
     pgb.pushMatrix();
-    pgb.translate(x, y);
+    pgb.translate(x + pg.width/2, y + pg.height/2);
     pgb.rotate(radians(r));
-    pgb.image(pg, 0, 0);
-    pgb.popMatrix();    
+    pgb.image(pg, -pg.width/2,  -pg.height/2);
+    pgb.popMatrix();  
+  }
+}
+
+void movePG_bezier(PGraphics pg, PGraphics pgb,
+                int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int r1, int r2,
+                int currentFrame, int startFrame, int endFrame, boolean debug){
+
+  if(currentFrame < startFrame) return;
+  if(endFrame < currentFrame) return;
+
+  if(debug){
+     setPG_stroke(pgb, BLUE, 2, 255);
+     setPG_fill(pgb, BLUE, 255);
+     pgb.line(x1, y1, x2, y2);
+     pgb.line(x3, y3, x4, y4);
+     pgb.ellipse(x2, y2, 10, 10);
+     pgb.ellipse(x3, y3, 10, 10);
+     
+     setPG_stroke(pgb, RED, 2, 255);
+     setPG_fill(pgb, RED, 255);
+     pgb.ellipse(x1, y1, 10, 10);
+     pgb.ellipse(x4, y4, 10, 10);
+     setPG_fill(pgb, TRANSPARENT, 255);
+     pgb.bezier(x1, y1, x2, y2, x3, y3, x4, y4);
+  }
+  
+  float p = (currentFrame - startFrame)/float(endFrame - startFrame);
+  float x = bezierPoint(x1, x2, x3, x4, p);
+  float y = bezierPoint(y1, y2, y3, y4, p);
+  int r = r1 + int((r2 - r1) * p);
+  
+  if(r1 == 0 && r2 == 0){
+    pgb.image(pg, x, y);
+  }else{
+    // rotate at the center of the moving object
+    pgb.pushMatrix();
+    pgb.translate(x + pg.width/2, y + pg.height/2);
+    pgb.rotate(radians(r));
+    pgb.image(pg, -pg.width/2,  -pg.height/2);
+    pgb.popMatrix();   
   }
 }
 
@@ -90,15 +139,15 @@ void saveCurrentFrame(PGraphics pg, String fileName){
 LINE
 */
 
-void drawLine(PGraphics pg, int x1, int y1, int x2, int y2,
-              int strokeColor, int strokeWeight_, int strokeAlpha){
-  setStroke(pg, strokeColor, strokeWeight_, strokeAlpha); 
+void drawPG_line(PGraphics pg, int x1, int y1, int x2, int y2,
+              int strokeColor, float strokeWeight_, int strokeAlpha){
+  setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha); 
   pg.line(x1, y1, x2, y2);
 }
 
-void drawDashLine(PGraphics pg, int x1, int y1, int x2, int y2,
+void drawPG_lineDash(PGraphics pg, int x1, int y1, int x2, int y2,
               int strokeColor, int strokeWeight_, int strokeAlpha){
-  setStroke(pg, strokeColor, strokeWeight_, strokeAlpha); 
+  setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha); 
 
   float  bx, by;
   int    j = 0;  
@@ -123,13 +172,13 @@ void drawDashLine(PGraphics pg, int x1, int y1, int x2, int y2,
   }
 }
 
-void drawArrowLine(PGraphics pg, int x1, int y1, int x2, int y2, int arrowLen, 
+void drawPG_lineArrow(PGraphics pg, int x1, int y1, int x2, int y2, int arrowLen, 
                int strokeColor, int strokeWeight_, int strokeAlpha,
                boolean twoWay){
   
   float len = dist(x1, y1, x2, y2);
   float angle = atan2(y2 - y1, x2 - x1);
-  setStroke(pg, strokeColor, strokeWeight_, strokeAlpha);
+  setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha);
   
   pg.pushMatrix();
   pg.translate(x1, y1);
@@ -154,11 +203,11 @@ void drawArrowLine(PGraphics pg, int x1, int y1, int x2, int y2, int arrowLen,
 TEXT
 */
 
-void drawText(PGraphics pg, int x, int y, 
+void drawPG_text(PGraphics pg, int x, int y, 
               String text_, int textSize_, int textColor, int textAlpha){
                 
   pg.textSize(textSize_);  
-  setFill(pg, textColor, textAlpha);
+  setPG_fill(pg, textColor, textAlpha);
   pg.text(text_, x, y);
 }
 
@@ -167,14 +216,23 @@ void drawText(PGraphics pg, int x, int y,
 RECTANGLE
 */
    
+   
+void drawPG_rect(PGraphics pg, int x, int y, int width_, int height_, int r, 
+              int strokeColor, float strokeWeight_, int strokeAlpha,
+              int fillColor, int fillAlpha){
+  setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha);
+  setPG_fill(pg, fillColor, fillAlpha);
+  pg.rect(x, y, width_, height_, r);
+}
+
 PGraphics getPG_rect(int width_, int height_,int r,
                      int strokeColor, float strokeWeight_, int strokeAlpha,
                      int fillColor, int fillAlpha){
                        
   PGraphics pg = createGraphics(width_ , height_);
   pg.beginDraw();
-  setStroke(pg, strokeColor, strokeWeight_, strokeAlpha);
-  setFill(pg, fillColor, fillAlpha);
+  setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha);
+  setPG_fill(pg, fillColor, fillAlpha);
   
   int x = ceil(strokeWeight_/2);
   int y = ceil(strokeWeight_/2);
@@ -191,8 +249,8 @@ PGraphics getPG_rectStroke(int width_, int height_,int r,
                        
   PGraphics pg = createGraphics(width_ , height_);
   pg.beginDraw();
-  setStroke(pg, strokeColor, strokeWeight_, strokeAlpha);
-  setFill(pg, TRANSPARENT, 0);
+  setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha);
+  setPG_fill(pg, TRANSPARENT, 0);
   
   int x = ceil(strokeWeight_/2);
   int y = ceil(strokeWeight_/2);
@@ -214,8 +272,8 @@ PGraphics getPG_rectText(int width_, int height_,int r,
   pg.background(127);
   
   // Rectangle
-  setStroke(pg, strokeColor, strokeWeight_, strokeAlpha);
-  setFill(pg, fillColor, fillAlpha);
+  setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha);
+  setPG_fill(pg, fillColor, fillAlpha);
   int x = ceil(strokeWeight_/2);
   int y = ceil(strokeWeight_/2);
   int w = width_ - ceil(strokeWeight_) - 1;
@@ -224,7 +282,7 @@ PGraphics getPG_rectText(int width_, int height_,int r,
   
   // Text
   pg.textSize(textSize_);
-  setFill(pg, textColor, textAlpha);
+  setPG_fill(pg, textColor, textAlpha);
   pg.text(text_, textX, textY);  
     
   pg.endDraw();
@@ -246,7 +304,7 @@ PGraphics getPG_bigArrow(int width_, int height_,
   
   // draw border less traiangle and rectangle
   pg.noStroke();
-  setFill(pg, fillColor, fillAlpha);
+  setPG_fill(pg, fillColor, fillAlpha);
   
   // inside size
   int x = ceil(strokeWeight_/2);
@@ -276,7 +334,7 @@ PGraphics getPG_bigArrow(int width_, int height_,
   
   // draw border
   if(strokeColor != TRANSPARENT){
-    setStroke(pg, strokeColor, strokeWeight_, strokeAlpha);
+    setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha);
     pg.line(rx1, ry1, rx2, ry2);
     pg.line(rx2, ry2, tx1, ty1);
     pg.line(tx1, ty1, tx3, ty3);
@@ -306,7 +364,7 @@ PGraphics getPG_2wayBigArrow(int width_, int height_,
   
   // draw border less traiangle and rectangle
   pg.noStroke();
-  setFill(pg, fillColor, fillAlpha);
+  setPG_fill(pg, fillColor, fillAlpha);
 
   int t1x1 = x + arrowWidth;
   int t1y1 = y;
@@ -338,7 +396,7 @@ PGraphics getPG_2wayBigArrow(int width_, int height_,
   
   // draw border
   if(strokeColor != TRANSPARENT){
-    setStroke(pg, strokeColor, strokeWeight_, strokeAlpha);
+    setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha);
     pg.line(rx1, ry1, rx2, ry2);
     pg.line(rx2, ry2, t2x1, t2y1);
     pg.line(t2x1, t2y1, t2x3, t2y3);
@@ -374,8 +432,8 @@ PGraphics getPG_cylinder(int width_, int height_, int arcHeight,
   int e1_y = y + h - arcHeight;
   int e1_w = w;
   int e1_h = arcHeight;
-  setStroke(pg, strokeColor, strokeWeight_, strokeAlpha);
-  setFill(pg, bodyColor, bodyAlpha);
+  setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha);
+  setPG_fill(pg, bodyColor, bodyAlpha);
   pg.ellipse(e1_x, e1_y, e1_w, e1_h);
   
   // middle rectangle
@@ -385,7 +443,7 @@ PGraphics getPG_cylinder(int width_, int height_, int arcHeight,
   int r_h = h - (2 * arcHeight);
   pg.noStroke();
   pg.rect(r_x, r_y, r_w, r_h);
-  setStroke(pg, strokeColor, strokeWeight_, strokeAlpha);
+  setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha);
   pg.line(r_x, r_y, r_x, r_y + r_h);
   pg.line(r_x + r_w, r_y, r_x + r_w, r_y + r_h);
   
@@ -394,7 +452,7 @@ PGraphics getPG_cylinder(int width_, int height_, int arcHeight,
   int e2_y = y + arcHeight;
   int e2_w = e1_w;
   int e2_h = e1_h;
-  setFill(pg, ellipseColor, bodyAlpha);
+  setPG_fill(pg, ellipseColor, bodyAlpha);
   pg.ellipse(e2_x, e2_y, e2_w, e2_h);
   
   pg.endDraw();
@@ -423,11 +481,190 @@ void drawCloud(int x, int y, int width_,
 }
 */
 
+
+PGraphics getPG_horizontalRects(int strokeColor, float strokeWeight_, int strokeAlpha,
+                           int[] widths, int height_, int[] fillColors, 
+                           String[] texts, int textSize, int[] textXs, int textY, int[] textColors){
+
+  int[] xs = new int[widths.length];
+  int y = ceil(strokeWeight_/2);
+  int width_ = 0;
+  int w = 0;
+  int h = height_ - ceil(strokeWeight_) - 1;
+  
+  // update width and x positions
+  for(int i=0; i<widths.length; i++){
+    width_ += widths[i];
+    
+    if(i==0){
+      xs[i] = ceil(strokeWeight_/2);
+    }else{
+      //sum of previous rects width + X
+      xs[i] = w + xs[0]; 
+    }
+    
+    if(widths.length == 0){
+      widths[i] = widths[i] - ceil(strokeWeight_);
+    }else if(i==0 || i==widths.length-1){
+      widths[i] = widths[i] - ceil(strokeWeight_/2) - 1;
+    }
+    w += widths[i];
+  }
+  
+  PGraphics pg = createGraphics(width_ + 1 , height_);
+  pg.beginDraw();
+  setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha);
+  
+  for(int i=0; i<widths.length; i++){
+    // rect
+    setPG_fill(pg, fillColors[i], 255);
+    pg.rect(xs[i], y, widths[i], h);
+    
+    // text
+    if(!texts[i].equals("")){
+      drawPG_text(pg, xs[i] + textXs[i], textY, texts[i], textSize, textColors[i], 255);
+    }
+  }
+  
+  pg.endDraw();
+  return pg;                 
+}
+
+PGraphics getPG_verticalRects(int strokeColor, float strokeWeight_, int strokeAlpha,
+                           int width_, int[] heights, int[] fillColors, 
+                           String[] texts, int textSize, int[] textXs, int[] textYs, int[] textColors){
+
+  int x = ceil(strokeWeight_/2);
+  int[] ys = new int[heights.length];
+  int w = width_ - ceil(strokeWeight_) - 1;
+  int height_ = 0;
+  int h = 0;
+  
+  // update width and x positions
+  for(int i=0; i<heights.length; i++){
+    height_ += heights[i];
+    
+    if(i==0){
+      ys[i] = ceil(strokeWeight_/2);
+    }else{
+      //sum of previous rects heights + Y
+      ys[i] = h + ys[0]; 
+    }
+    
+    if(heights.length == 0){
+      heights[i] = heights[i] - ceil(strokeWeight_);
+    }else if(i==0 || i==heights.length-1){
+      heights[i] = heights[i] - ceil(strokeWeight_/2) - 1;
+    }
+    h += heights[i];
+  }
+  
+  PGraphics pg = createGraphics(width_ + 1 , height_);
+  pg.beginDraw();
+  setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha);
+  
+  for(int i=0; i<heights.length; i++){
+    // rect
+    setPG_fill(pg, fillColors[i], 255);
+    pg.rect(x, ys[i], w, heights[i]);
+    
+    // text
+    if(!texts[i].equals("")){
+      drawPG_text(pg, x + textXs[i], ys[i] + textYs[i], texts[i], textSize, textColors[i], 255);
+    }
+  }
+  
+  pg.endDraw();
+  return pg;                 
+}
+
+PGraphics getPG_table(int strokeColor, float strokeWeight_, int strokeAlpha,
+                      int fillColor, int fillAlpha,
+                      int[] columnWidths, int height_, 
+                      String[][] texts, int textSize, int[][] textXs, int textY, int[][] textColors){
+  
+  int width_ = 0;
+  for(int i=0; i<columnWidths.length; i++){
+    width_ += columnWidths[i]; 
+  }
+  PGraphics pg = getPG_rect(width_, height_, 0, strokeColor, strokeWeight_, strokeAlpha, fillColor, fillAlpha);
+  pg.beginDraw();
+  
+  // Draw Row lines
+  int row = texts.length;
+  int row_height = height_ / row;
+  println(row_height);
+  for(int i=1; i<row; i++){
+    drawPG_line(pg, 0, row_height * i, width_, row_height * i, 
+             strokeColor, strokeWeight_, strokeAlpha);
+    println("draw" + i);
+  }
+  
+  // Draw Column Lines
+  int columnX = 0;
+  for(int i=0; i<columnWidths.length - 1; i++){
+    drawPG_line(pg, columnX + columnWidths[i], 0, columnX + columnWidths[i], height_, 
+             strokeColor, strokeWeight_, strokeAlpha);  
+    columnX += columnWidths[i];
+  }                        
+              
+  // Draw Texts
+  for(int i=0; i<row; i++){
+    int cx = 0;
+    for(int j=0; j<columnWidths.length; j++){
+      int x = cx + textXs[i][j];
+      int y = row_height * i + textY;
+      String text = texts[i][j];
+      int textColor = textColors[i][j];
+      drawPG_text(pg, x, y, text, textSize, textColor, 255);
+      cx += columnWidths[j];
+    }
+  }
+  
+  pg.endDraw();
+  return pg;
+}
+
+PGraphics getPG_balloon(int rectX, int rectY, int rectW, int rectH, int r,
+                        int triX1, int triY1, int triX2, int triY2, int triX3, int triY3,
+                        int fillRectX, int fillRectY, int fillRectW, int fillRectH,
+                        int strokeColor, float strokeWeight_, int strokeAlpha,
+                        int fillColor, int fillAlpha, int fillRectColor){
+                          
+  int[] xvalues = {rectX + rectW, triX1, triX2, triX3};
+  int width_ = max(xvalues) + ceil(strokeWeight_);
+  int[] yvalues = {rectY + rectH, triY1, triY2, triY3};
+  int height_ = max(yvalues) + ceil(strokeWeight_);
+  
+  PGraphics pg = createGraphics(width_ + 1 , height_);
+  pg.beginDraw();
+  
+  setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha);
+  setPG_fill(pg, fillColor, fillAlpha);
+  if(rectX < strokeWeight_) rectX = ceil(strokeWeight_);
+  if(rectY < strokeWeight_) rectY = ceil(strokeWeight_);
+  pg.rect(rectX, rectY, rectW, rectH, r);
+  
+  if(triX1 < strokeWeight_) triX1 = ceil(strokeWeight_);
+  if(triY1 < strokeWeight_) triY1 = ceil(strokeWeight_);  
+  if(triX2 < strokeWeight_) triX2 = ceil(strokeWeight_);
+  if(triY2 < strokeWeight_) triY2 = ceil(strokeWeight_); 
+  if(triX3 < strokeWeight_) triX3 = ceil(strokeWeight_);
+  if(triY3 < strokeWeight_) triY3 = ceil(strokeWeight_); 
+  pg.triangle(triX1, triY1, triX2, triY2, triX3, triY3);
+  
+  pg.noStroke();
+  setPG_fill(pg, fillRectColor, fillAlpha);
+  pg.rect(fillRectX, fillRectY, fillRectW, fillRectH);
+  
+  pg.endDraw();                        
+  return pg;
+}
 /*
 UTILITY
 */
 
-void setStroke(PGraphics pg, int strokeColor, float strokeWeight_, int strokeAlpha){
+void setPG_stroke(PGraphics pg, int strokeColor, float strokeWeight_, int strokeAlpha){
   pg.strokeWeight(strokeWeight_);
   
   switch(strokeColor){
@@ -438,7 +675,13 @@ void setStroke(PGraphics pg, int strokeColor, float strokeWeight_, int strokeAlp
       pg.stroke(0, strokeAlpha); break;
     case WHITE:
       pg.stroke(255, strokeAlpha); break;
-    
+    case RED:
+      pg.stroke(255, 0, 0, strokeAlpha); break;
+    case GREEN:
+      pg.stroke(0, 255, 0, strokeAlpha); break;
+    case BLUE:
+      pg.stroke(0, 0, 255, strokeAlpha); break;
+      
     // FLAT DESIGN (http://flatuicolors.com/)
     case TURQUOISE:
       pg.stroke(26, 188, 156, strokeAlpha); break;
@@ -485,7 +728,7 @@ void setStroke(PGraphics pg, int strokeColor, float strokeWeight_, int strokeAlp
   }
 }
 
-void setFill(PGraphics pg, int fillColor, int fillAlpha){
+void setPG_fill(PGraphics pg, int fillColor, int fillAlpha){
   switch(fillColor){
     // BASIC COLORS
     case TRANSPARENT:
@@ -494,7 +737,13 @@ void setFill(PGraphics pg, int fillColor, int fillAlpha){
       pg.fill(0, fillAlpha); break;
     case WHITE:
       pg.fill(255, fillAlpha); break;
-    
+    case RED:
+      pg.fill(255, 0, 0, fillAlpha); break;
+    case GREEN:
+      pg.fill(0, 255, 0, fillAlpha); break;
+    case BLUE:
+      pg.fill(0, 0, 255, fillAlpha); break;
+      
     // FLAT DESIGN (http://flatuicolors.com/)
     case TURQUOISE:
       pg.fill(26, 188, 156, fillAlpha); break;
@@ -541,7 +790,7 @@ void setFill(PGraphics pg, int fillColor, int fillAlpha){
   }
 }
 
-void drawGrid(PGraphics pg, int strokeColor, int strokeWeight_, 
+void drawPG_grid(PGraphics pg, int strokeColor, int strokeWeight_, 
               int strongStrokeWeight, int strokeAlpha,
               int wPitch, int wsPitch, int hPitch, int hsPitch){  
 
@@ -549,17 +798,17 @@ void drawGrid(PGraphics pg, int strokeColor, int strokeWeight_,
   
   for(int x=wPitch; x<width; x+=wPitch){
       if(x % wsPitch == 0){
-          drawLine(pg, x, 0, x, pg.height, strokeColor, strongStrokeWeight, strokeAlpha);
+          drawPG_line(pg, x, 0, x, pg.height, strokeColor, strongStrokeWeight, strokeAlpha);
       }else{
-          drawLine(pg, x, 0, x, pg.height, strokeColor, strokeWeight_, strokeAlpha);
+          drawPG_line(pg, x, 0, x, pg.height, strokeColor, strokeWeight_, strokeAlpha);
       }
   }
   
   for(int y=hPitch; y<height; y+=hPitch){
       if(y % hsPitch == 0){
-          drawLine(pg, 0, y, pg.width, y, strokeColor, strongStrokeWeight, strokeAlpha);
+          drawPG_line(pg, 0, y, pg.width, y, strokeColor, strongStrokeWeight, strokeAlpha);
       }else{
-          drawLine(pg, 0, y, pg.width, y, strokeColor, strokeWeight_, strokeAlpha);
+          drawPG_line(pg, 0, y, pg.width, y, strokeColor, strokeWeight_, strokeAlpha);
       }
   }
 }
