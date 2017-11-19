@@ -13,7 +13,7 @@ final int PETERRIVER = 102;
 final int AMETHYST = 103;
 final int WETASPHALT = 104;
 final int GREENSEA = 105;
-final int NEPHERITIS = 106;
+final int NEPHRITIS = 106;
 final int BELIZEHOLE = 107;
 final int WISTERIA = 108;
 final int MIDNIGHTBLUE = 109;
@@ -33,6 +33,8 @@ final int IRONGRAY = 0;
 final int BLUEGEM = 0;
 final int WHITESMOKE = 0;
 final int TERRACOTTA = 0;
+
+// POSISION
 
 // SAVE
 final int SAVE_MODE_BACKGROUND = 0;
@@ -695,7 +697,7 @@ void setPG_stroke(PGraphics pg, int strokeColor, float strokeWeight_, int stroke
       pg.stroke(52, 73, 94, strokeAlpha); break;
     case GREENSEA:
       pg.stroke(22, 160, 133, strokeAlpha); break;
-    case NEPHERITIS:
+    case NEPHRITIS:
       pg.stroke(39, 174, 96, strokeAlpha); break;
     case BELIZEHOLE:
       pg.stroke(41, 128, 185, strokeAlpha); break;
@@ -757,7 +759,7 @@ void setPG_fill(PGraphics pg, int fillColor, int fillAlpha){
       pg.fill(52, 73, 94, fillAlpha); break;
     case GREENSEA:
       pg.fill(22, 160, 133, fillAlpha); break;
-    case NEPHERITIS:
+    case NEPHRITIS:
       pg.fill(39, 174, 96, fillAlpha); break;
     case BELIZEHOLE:
       pg.fill(41, 128, 185, fillAlpha); break;

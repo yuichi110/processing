@@ -19,7 +19,10 @@ void network_test_draw(){
   pgb.fill(255, 100);
   
   //TEST
-  network_test_drawBriefFormatsSmall(pgb);
+  //network_test_drawNetworkAsset(pgb);
+  //network_test_drawToplogy(pgb);
+  //network_test_drawIcon(pgb);
+  network_test_drawNetworkAsset2(pgb);
   
   drawPG_grid(pgb, CONCRETE, 1, 2, 255, 50, 250, 50, 250); 
   pgb.endDraw();
@@ -124,4 +127,154 @@ void network_test_drawBriefFormatsSmall(PGraphics pgb){
   
   PGraphics pgData = getPG_network_bfsData(BLACK, 2, 255, CONCRETE, BLACK);
   pgb.image(pgData, 900, 750);
+}
+
+
+
+void network_test_drawNetworkAsset(PGraphics pgb){ 
+  {
+    int[] left = {GREEN, GREEN, GREEN};
+    int[] bottom = {GREEN, GREEN};
+    int[] right = {BLUE, GREEN};
+    int[] top = {};
+    NetworkAsset sw = new NetworkAsset(50, 100, 0, BLACK, 2, CONCRETE,
+                                           10, BLACK, 2, left, bottom, right, top);
+    PGraphics pgsw = sw.getPGraphicsImage();
+    PVector pv = sw.getBodyXY();
+    pgb.image(pgsw, 100 - pv.x, 50 - pv.y); 
+  }
+
+  {
+    /*
+    int[] left = {GREEN, GREEN, GREEN};
+    int[] bottom = {GREEN, GREEN};
+    int[] right = {BLUE, GREEN};
+    int[] top = {GREEN};
+    NetworkAsset sw = new NetworkAsset(75, 150, 0, BLACK, 2, CONCRETE,
+                                           15, BLACK, 2, left, bottom, right, top);
+    PGraphics pgsw = sw.getPGraphicsImageWithText("Switch1", WHITE, 18, 20, 20, true);
+    PVector pv = sw.getBodyXY();
+    pgb.image(pgsw, 100 - pv.x, 250 - pv.y); 
+    */
+  }  
+  
+  {
+    int[] left = {GREEN, GREEN, GREEN};
+    int[] bottom = {GREEN, GREEN};
+    int[] right = {BLUE, GREEN};
+    int[] top = {GREEN};
+    NetworkAsset sw = new NetworkAsset(100, 200, 0, BLACK, 2, CONCRETE,
+                                           25, BLACK, 2, left, bottom, right, top);
+    PGraphics pgsw = sw.getPGraphicsImage();
+    PVector pv = sw.getBodyXY();
+    pgb.image(pgsw, 100 - pv.x, 500 - pv.y); 
+  }  
+
+  {
+    int[] left = {GREEN, };
+    int[] bottom = {GREEN, GREEN, GREEN};
+    int[] right = {BLUE, GREEN};
+    int[] top = {GREEN, GREEN};
+    NetworkAsset sw = new NetworkAsset(100, 50, 0, BLACK, 2, CONCRETE,
+                                           10, BLACK, 2, left, bottom, right, top);
+    PGraphics pgsw = sw.getPGraphicsImage();
+    PVector pv = sw.getBodyXY();
+    pgb.image(pgsw, 300 - pv.x, 50 - pv.y); 
+  }
+
+  {
+    /*
+    int[] left = {};
+    int[] bottom = {GREEN, GREEN, GREEN};
+    int[] right = {BLUE, GREEN};
+    int[] top = {GREEN, GREEN};
+    NetworkAsset sw = new NetworkAsset(150, 75, 0, BLACK, 2, CONCRETE,
+                                           15, BLACK, 2, left, bottom, right, top);
+    PGraphics pgsw = sw.getPGraphicsImageWithText("Switch1", WHITE, 18, 20, 20, false);
+    PVector pv = sw.getBodyXY();
+    pgb.image(pgsw, 300 - pv.x, 250 - pv.y); 
+    */
+  }  
+  
+  {
+    int[] left = {GREEN};
+    int[] bottom = {GREEN, GREEN, GREEN};
+    int[] right = {BLUE, GREEN};
+    int[] top = {GREEN, GREEN};
+    NetworkAsset sw = new NetworkAsset(200, 100, 0, BLACK, 2, CONCRETE,
+                                           25, BLACK, 2, left, bottom, right, top);
+    PGraphics pgsw = sw.getPGraphicsImage();
+    PVector pv = sw.getBodyXY();
+    pgb.image(pgsw, 300 - pv.x, 500 - pv.y); 
+  }  
+}
+
+void network_test_drawToplogy(PGraphics pgb){
+  NetworkTopology topology = new NetworkTopology(pgb.width, pgb.height);
+  
+  NetworkAsset sw1 = new NetworkAsset(100, 100, 10, BLACK, 2, CONCRETE,
+                                           25, BLACK, 2, GREEN,
+                                           0, 0, 1, 0);
+
+  NetworkAsset sw2 = new NetworkAsset(100, 200, 10, BLACK, 2, CONCRETE,
+                                           25, BLACK, 2, GREEN,
+                                           2, 0, 0, 0);
+  topology.addAsset("SW1", sw1, 100, 100);
+  topology.addAsset("SW2", sw2, 300, 200);
+  topology.connect("SW1", RIGHT, 1, "SW2", LEFT, 2);
+  
+  pgb.image(topology.getPGraphics(), 0, 0);
+}
+
+void network_test_drawIcon(PGraphics pgb){
+ pgb.background(0);
+ 
+ PGraphics l2sw = getPG_l2SwitchIcon(100, WHITE);
+ pgb.image(l2sw, 100, 100);
+
+ PGraphics router = getPG_routerIcon(100, WHITE);
+ pgb.image(router, 100, 300);
+ 
+ PGraphics l3sw = getPG_l3SwitchIcon(100, WHITE);
+ pgb.image(l3sw, 100, 500);
+ 
+ PGraphics pc = getPG_pcIcon(100, WHITE);
+ pgb.image(pc, 100, 700);
+ 
+
+}
+
+void network_test_drawNetworkAsset2(PGraphics pgb){
+
+  NetworkAsset sw = new NetworkAsset(100, 100, 10, BLACK, 2, PETERRIVER,
+                                           15, BLACK, 2, EMERALD,
+                                           1, 0, 1, 0);
+  sw.setIcon(NetworkAsset.L2SWITCH, WHITE, 80, 12, 12);
+  PGraphics pgsw = sw.getPGraphicsImage();
+  PVector pv = sw.getBodyXY();
+  pgb.image(pgsw, 100 - pv.x, 50 - pv.y); 
+    
+  NetworkAsset router = new NetworkAsset(100, 100, 10, BLACK, 2, CARROT,
+                                           15, BLACK, 2, EMERALD,
+                                           2, 0, 0, 0);
+  router.setIcon(NetworkAsset.ROUTER, WHITE, 80, 10, 10);
+  PGraphics pgrouter = router.getPGraphicsImage();
+  PVector pv2 = router.getBodyXY();
+  pgb.image(pgrouter, 100 - pv2.x, 250 - pv2.y);  
+  
+  NetworkAsset l3sw = new NetworkAsset(100, 100, 10, BLACK, 2, CARROT,
+                                           15, BLACK, 2, EMERALD,
+                                           2, 0, 0, 0);
+  l3sw.setIcon(NetworkAsset.L3SWITCH, WHITE, 80, 10, 10);
+  PGraphics pgl3sw = l3sw.getPGraphicsImage();
+  PVector pvL3sw = l3sw.getBodyXY();
+  pgb.image(pgl3sw, 100 - pvL3sw.x, 450 - pvL3sw.y); 
+  
+  NetworkAsset pc = new NetworkAsset(100, 100, 10, BLACK, 2, AMETHYST,
+                                           15, BLACK, 2, EMERALD,
+                                           0, 0, 1, 0);
+  pc.setIcon(NetworkAsset.PC, WHITE, 80, 12, 15);
+  PGraphics pgpc = pc.getPGraphicsImage();
+  PVector pvpc = pc.getBodyXY();
+  pgb.image(pgpc, 100 - pvpc.x, 650 - pvpc.y);  
 }
