@@ -22,7 +22,8 @@ void network_test_draw(){
   //network_test_drawNetworkAsset(pgb);
   //network_test_drawToplogy(pgb);
   //network_test_drawIcon(pgb);
-  network_test_drawNetworkAsset2(pgb);
+  //network_test_drawNetworkAsset2(pgb);
+  network_test_drawNetworkAsset3(pgb);
   
   drawPG_grid(pgb, CONCRETE, 1, 2, 255, 50, 250, 50, 250); 
   pgb.endDraw();
@@ -220,8 +221,13 @@ void network_test_drawToplogy(PGraphics pgb){
                                            25, BLACK, 2, GREEN,
                                            2, 0, 0, 0);
   topology.addAsset("SW1", sw1, 100, 100);
+  topology.addAssetText("SW1", "e0/1", 18, BLACK, 110, 30);
+  
   topology.addAsset("SW2", sw2, 300, 200);
   topology.connect("SW1", RIGHT, 1, "SW2", LEFT, 2);
+  topology.addAssetText("SW2", "e0/2", 18, BLACK, -50, 170);
+  
+  topology.addTopologyText("", 32, BLACK, 100, 50);
   
   pgb.image(topology.getPGraphics(), 0, 0);
 }
@@ -277,4 +283,23 @@ void network_test_drawNetworkAsset2(PGraphics pgb){
   PGraphics pgpc = pc.getPGraphicsImage();
   PVector pvpc = pc.getBodyXY();
   pgb.image(pgpc, 100 - pvpc.x, 650 - pvpc.y);  
+}
+
+void network_test_drawNetworkAsset3(PGraphics pgb){
+
+  NetworkAsset sw = new NetworkAsset(150, 50, 10, BLACK, 2, PETERRIVER,
+                                           15, BLACK, 2, EMERALD,
+                                           0, 2, 0, 0);
+  sw.setText("L2SW1", 40, 30, 24, WHITE, false);
+  PGraphics pgsw = sw.getPGraphicsImage();
+  PVector pv = sw.getBodyXY();
+  pgb.image(pgsw, 100 - pv.x, 50 - pv.y); 
+    
+  NetworkAsset router = new NetworkAsset(50, 150, 10, BLACK, 2, CARROT,
+                                           15, BLACK, 2, EMERALD,
+                                           2, 0, 0, 0);
+  router.setText("ROUTER1", 20, 20, 24, WHITE, true);
+  PGraphics pgrouter = router.getPGraphicsImage();
+  PVector pv2 = router.getBodyXY();
+  pgb.image(pgrouter, 100 - pv2.x, 250 - pv2.y);
 }

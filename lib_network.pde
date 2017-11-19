@@ -468,21 +468,44 @@ class NetworkTopology{
   }
   
   class CableObject{
+    String name1;
     int x1;
     int y1;
+    String name2;
     int x2;
     int y2;
     
-    CableObject(int x1, int y1, int x2, int y2){
+    CableObject(String name1, int x1, int y1, String name2, int x2, int y2){
+      this.name1 = name1;
       this.x1 = x1;
       this.y1 = y1;
+      this.name2 = name2;
       this.x2 = x2;
       this.y2 = y2;
     }
   }
   
+  class TextObject{
+    String text;
+    int textSize;
+    int textColor;
+    int x;
+    int y;
+    
+    TextObject(String text, int textSize, int textColor, int x, int y){
+      this.text = text;
+      this.textSize = textSize;
+      this.textColor = textColor;
+      this.x = x;
+      this.y = y;
+    }
+  }
+  
   HashMap<String, AssetObject> assetMap;
   ArrayList<CableObject> cableList;
+  HashMap<String, ArrayList<TextObject>> assetTextMap;
+  ArrayList<TextObject> topologyTextList;
+  
   int width_;
   int height_;
   
@@ -491,10 +514,67 @@ class NetworkTopology{
     this.height_ = height_;
     assetMap = new HashMap<String, AssetObject>();
     cableList = new ArrayList<CableObject>();
+    assetTextMap = new HashMap<String, ArrayList<TextObject>>();
+    topologyTextList = new ArrayList<TextObject>();
   }
   
   void addAsset(String name, NetworkAsset asset, int x, int y){
+    if(assetMap.containsKey(name)){
+      removeAsset(name);
+    }
     assetMap.put(name, new AssetObject(name, asset, x, y));
+  }
+  
+  void removeAsset(String name){
+    if(!assetMap.containsKey(name)){
+      return;
+    }
+    
+    // Remove cables which are connected to the asset
+    ArrayList<CableObject> newCableList =  new ArrayList<CableObject>();
+    for(int i=0; i<cableList.size(); i++){
+      CableObject cable = cableList.get(i);
+      if(name.equals(cable.name1)){
+        continue; 
+      }
+      if(name.equals(cable.name2)){
+        continue;
+      }
+      newCableList.add(cable);
+    }
+    cableList = newCableList;
+    
+    // Remove asset Text
+    if(assetTextMap.containsKey(name)){
+      assetTextMap.put(name, new ArrayList<TextObject>()); 
+    }
+    
+    // Remove the asset.
+    assetMap.remove(name);
+  }
+  
+  void addTopologyText(String text, int textSize, int textColor, int x, int y){
+    TextObject t = new TextObject(text, textSize, textColor, x, y);
+    topologyTextList.add(t);
+  }
+  
+  void removeTopologyTexts(){
+    topologyTextList = new ArrayList<TextObject>(); 
+  }
+  
+  void addAssetText(String name, String text, int textSize, int textColor, int x, int y){
+    TextObject t = new TextObject(text, textSize, textColor, x, y);
+    if(!assetTextMap.containsKey(name)){
+      assetTextMap.put(name, new ArrayList<TextObject>());
+    }
+    ArrayList<TextObject> list = assetTextMap.get(name);
+    list.add(t);
+  }
+  
+  void removeAssetTexts(String name){
+    if(assetTextMap.containsKey(name)){
+      assetTextMap.put(name, new ArrayList<TextObject>());
+    }
   }
   
   void connect(String name1, int position1, int n1, String name2, int position2, int n2){
@@ -508,7 +588,7 @@ class NetworkTopology{
     AssetObject asset2 = assetMap.get(name2);
     PVector pv2 = asset2.getPortCoordinate(position2, n2);
     
-    CableObject cable = new CableObject(int(pv1.x), int(pv1.y), int(pv2.x), int(pv2.y));
+    CableObject cable = new CableObject(name1, int(pv1.x), int(pv1.y), name2, int(pv2.x), int(pv2.y));
     cableList.add(cable);
   }
   
@@ -529,6 +609,23 @@ class NetworkTopology{
       PGraphics assetPG = asset.getPGraphicsImage();
       PVector pv = asset.getBodyXY();
       pg.image(assetPG, assetObject.x - pv.x, assetObject.y - pv.y);
+      
+      //Draw Texts
+      if(!assetTextMap.containsKey(name)){
+        continue; 
+      }
+      ArrayList<TextObject> list = assetTextMap.get(name);
+      for(int i=0; i<list.size(); i++){
+        TextObject t = list.get(i);
+        drawPG_text(pg, assetObject.x + t.x, assetObject.y + t.y,
+                    t.text, t.textSize, t.textColor, 255);
+      }
+    }
+    
+    // Draw Topology Texts
+    for(int i=0; i<topologyTextList.size(); i++){
+      TextObject t = topologyTextList.get(i);
+      drawPG_text(pg, t.x, t.y, t.text, t.textSize, t.textColor, 255);
     }
     
     pg.endDraw();
@@ -725,8 +822,8 @@ class NetworkAsset{
     return new PVector(x, y); 
   }
   
-  void setText(String bodyText, int textColor, int textSize, 
-               int textX, int textY, boolean isTextVertical){
+  void setText(String bodyText, int textX, int textY,
+               int textSize, int textColor, boolean isTextVertical){
     this.bodyText = bodyText;
     this.textColor = textColor;
     this.textSize = textSize;
