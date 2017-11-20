@@ -50,9 +50,9 @@ boolean common_guidegrid_enabled = false;
 UTILITY
 */
 
-void movePG(PGraphics pg, PGraphics pgb, 
-          int x1, int y1, int r1, int x2, int y2, int r2, 
-          int currentFrame, int startFrame, int endFrame, boolean debug){
+void movePG(PGraphics pgb, PGraphics pg, 
+            int x1, int y1, int r1, int x2, int y2, int r2, 
+            int currentFrame, int startFrame, int endFrame, boolean debug){
             
   if(currentFrame < startFrame) return;
   if(endFrame < currentFrame) return;
@@ -82,9 +82,9 @@ void movePG(PGraphics pg, PGraphics pgb,
   }
 }
 
-void movePG_bezier(PGraphics pg, PGraphics pgb,
-                int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int r1, int r2,
-                int currentFrame, int startFrame, int endFrame, boolean debug){
+void movePG_bezier(PGraphics pgb, PGraphics pg,
+                   int x1, int y1, int r1, int x2, int y2, int x3, int y3, int x4, int y4, int r2,
+                   int currentFrame, int startFrame, int endFrame, boolean debug){
 
   if(currentFrame < startFrame) return;
   if(endFrame < currentFrame) return;
@@ -142,13 +142,13 @@ LINE
 */
 
 void drawPG_line(PGraphics pg, int x1, int y1, int x2, int y2,
-              int strokeColor, float strokeWeight_, int strokeAlpha){
+                 int strokeColor, float strokeWeight_, int strokeAlpha){
   setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha); 
   pg.line(x1, y1, x2, y2);
 }
 
 void drawPG_lineDash(PGraphics pg, int x1, int y1, int x2, int y2,
-              int strokeColor, int strokeWeight_, int strokeAlpha){
+                     int strokeColor, int strokeWeight_, int strokeAlpha){
   setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha); 
 
   float  bx, by;
@@ -175,8 +175,8 @@ void drawPG_lineDash(PGraphics pg, int x1, int y1, int x2, int y2,
 }
 
 void drawPG_lineArrow(PGraphics pg, int x1, int y1, int x2, int y2, int arrowLen, 
-               int strokeColor, int strokeWeight_, int strokeAlpha,
-               boolean twoWay){
+                      int strokeColor, int strokeWeight_, int strokeAlpha,
+                      boolean twoWay){
   
   float len = dist(x1, y1, x2, y2);
   float angle = atan2(y2 - y1, x2 - x1);
@@ -206,7 +206,7 @@ TEXT
 */
 
 void drawPG_text(PGraphics pg, int x, int y, 
-              String text_, int textSize_, int textColor, int textAlpha){
+                 String text_, int textSize_, int textColor, int textAlpha){
                 
   pg.textSize(textSize_);  
   setPG_fill(pg, textColor, textAlpha);
@@ -220,8 +220,8 @@ RECTANGLE
    
    
 void drawPG_rect(PGraphics pg, int x, int y, int width_, int height_, int r, 
-              int strokeColor, float strokeWeight_, int strokeAlpha,
-              int fillColor, int fillAlpha){
+                 int strokeColor, float strokeWeight_, int strokeAlpha,
+                 int fillColor, int fillAlpha){
   setPG_stroke(pg, strokeColor, strokeWeight_, strokeAlpha);
   setPG_fill(pg, fillColor, fillAlpha);
   pg.rect(x, y, width_, height_, r);
@@ -247,7 +247,7 @@ PGraphics getPG_rect(int width_, int height_,int r,
 }
 
 PGraphics getPG_rectStroke(int width_, int height_,int r,
-                     int strokeColor, float strokeWeight_, int strokeAlpha){
+                           int strokeColor, float strokeWeight_, int strokeAlpha){
                        
   PGraphics pg = createGraphics(width_ , height_);
   pg.beginDraw();
@@ -267,7 +267,7 @@ PGraphics getPG_rectStroke(int width_, int height_,int r,
 PGraphics getPG_rectText(int width_, int height_,int r,
                          int strokeColor, float strokeWeight_, int strokeAlpha,
                          int fillColor, int fillAlpha,
-                         String text_, int textSize_, int textColor, int textAlpha, int textX, int textY){
+                         int textX, int textY, String text_, int textSize_, int textColor, int textAlpha){
                        
   PGraphics pg = createGraphics(width_ , height_);
   pg.beginDraw();
@@ -297,9 +297,9 @@ OTHER Objects
 */
 
 PGraphics getPG_bigArrow(int width_, int height_,
-                  int arrowWidth, int arrowHeight,
-                  int strokeColor, int strokeWeight_, int strokeAlpha,
-                  int fillColor, int fillAlpha){
+                        int arrowWidth, int arrowHeight,
+                        int strokeColor, int strokeWeight_, int strokeAlpha,
+                        int fillColor, int fillAlpha){
                     
   PGraphics pg = createGraphics(width_, height_);
   pg.beginDraw();
@@ -351,9 +351,9 @@ PGraphics getPG_bigArrow(int width_, int height_,
 }
 
 PGraphics getPG_2wayBigArrow(int width_, int height_,
-                  int arrowWidth, int arrowHeight,
-                  int strokeColor, int strokeWeight_, int strokeAlpha,
-                  int fillColor, int fillAlpha){
+                             int arrowWidth, int arrowHeight,
+                             int strokeColor, int strokeWeight_, int strokeAlpha,
+                             int fillColor, int fillAlpha){
      
   PGraphics pg = createGraphics(width_, height_);
   pg.beginDraw();
@@ -484,9 +484,10 @@ void drawCloud(int x, int y, int width_,
 */
 
 
-PGraphics getPG_horizontalRects(int strokeColor, float strokeWeight_, int strokeAlpha,
-                           int[] widths, int height_, int[] fillColors, 
-                           String[] texts, int textSize, int[] textXs, int textY, int[] textColors){
+PGraphics getPG_horizontalRects(int[] widths, int height_, 
+                                int strokeColor, float strokeWeight_, int strokeAlpha,
+                                int[] fillColors, int[] fillAlpha,
+                                int[] textXs, int textY, String[] texts, int textSize, int[] textColors, int[] textAlpha){
 
   int[] xs = new int[widths.length];
   int y = ceil(strokeWeight_/2);
@@ -532,9 +533,10 @@ PGraphics getPG_horizontalRects(int strokeColor, float strokeWeight_, int stroke
   return pg;                 
 }
 
-PGraphics getPG_verticalRects(int strokeColor, float strokeWeight_, int strokeAlpha,
-                           int width_, int[] heights, int[] fillColors, 
-                           String[] texts, int textSize, int[] textXs, int[] textYs, int[] textColors){
+PGraphics getPG_verticalRects(int width_, int[] heights, 
+                              int strokeColor, float strokeWeight_, int strokeAlpha,
+                              int[] fillColors, int[] fillAlphas,
+                               int[] textXs, int[] textYs, String[] texts, int textSize, int[] textColors, int[] textAlphas){
 
   int x = ceil(strokeWeight_/2);
   int[] ys = new int[heights.length];
@@ -580,10 +582,10 @@ PGraphics getPG_verticalRects(int strokeColor, float strokeWeight_, int strokeAl
   return pg;                 
 }
 
-PGraphics getPG_table(int strokeColor, float strokeWeight_, int strokeAlpha,
+PGraphics getPG_table(int[] columnWidths, int height_, 
+                      int strokeColor, float strokeWeight_, int strokeAlpha,
                       int fillColor, int fillAlpha,
-                      int[] columnWidths, int height_, 
-                      String[][] texts, int textSize, int[][] textXs, int textY, int[][] textColors){
+                      int[][] textXs, int textY, String[][] texts, int textSize, int[][] textColors, int[][] textAlphas){
   
   int width_ = 0;
   for(int i=0; i<columnWidths.length; i++){

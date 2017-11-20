@@ -32,10 +32,10 @@ void network1_draw(){
   int x5 = 1100;
   int y5 = 225;
   
-  movePG(network1_packet, pgb, x1, y1, 0, x2, y2, 0, f, 50, 100, debug);
-  movePG(network1_packet, pgb, x2, y2, 0, x3, y3, 0, f, 100, 150, debug);
-  movePG(network1_packet, pgb, x3, y3, 0, x4, y4, 0, f, 150, 200, debug);
-  movePG(network1_packet, pgb, x4, y4, 0, x5, y5, 0, f, 200, 250, debug);
+  movePG(pgb, network1_packet, x1, y1, 0, x2, y2, 0, f, 50, 100, debug);
+  movePG(pgb, network1_packet, x2, y2, 0, x3, y3, 0, f, 100, 150, debug);
+  movePG(pgb, network1_packet, x3, y3, 0, x4, y4, 0, f, 150, 200, debug);
+  movePG(pgb, network1_packet, x4, y4, 0, x5, y5, 0, f, 200, 250, debug);
   
   drawPG_grid(pgb, CONCRETE, 1, 2, 255, 50, 250, 50, 250); 
   pgb.endDraw();

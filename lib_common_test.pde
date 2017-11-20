@@ -20,15 +20,30 @@ void common_test_draw(){
   pgb.beginDraw();
   pgb.fill(255, 100);
   
-  // TEST FUNCTION
-  //common_test_drawLine(pgb);
-  //common_test_drawText(pgb);
-  //common_test_drawRectangle(pgb);
-  //common_test_drawOthers(pgb);
-  //common_test_drawHorizontalVerticalRects(pgb);
-  //common_test_drawTable(pgb);
-  //common_test_drawBalloon(pgb);
-  common_test_drawMove(pgb);
+  boolean m = true;
+  if(m){
+    common_test_drawMove(pgb);
+  }else{
+    int f = frameCount % 400;
+    int one_sec = 50;
+    if(f > one_sec * 7){
+      common_test_drawBalloon(pgb);
+    }else if(f > one_sec * 6){
+      common_test_drawTable(pgb);
+    }else if(f > one_sec * 5){
+      common_test_drawHorizontalVerticalRects(pgb);
+    }else if(f > one_sec * 4){
+      common_test_drawOthers(pgb);
+    }else if(f > one_sec * 3){
+      common_test_drawRectangle(pgb);
+    }else if(f > one_sec * 2){
+      common_test_drawText(pgb);
+    }else{
+      common_test_drawLine(pgb);
+    }   
+  }
+
+
   
   drawPG_grid(pgb, CONCRETE, 1, 2, 255, 50, 250, 50, 250); 
   pgb.endDraw();
@@ -58,7 +73,7 @@ void common_test_drawText(PGraphics pgb){
 void common_test_drawRectangle(PGraphics pgb){
   PGraphics pgRect = getPG_rect(200, 100, 5, BLACK, 2, 255, WHITE, 255);
   PGraphics pgRectStroke = getPG_rectStroke(200, 100, 0, BLACK, 2, 255);
-  PGraphics pgRectText = getPG_rectText(200, 100, 0, BLACK, 2, 255, WHITE, 255, "Hello", 32, BLACK, 255, 50, 50);
+  PGraphics pgRectText = getPG_rectText(200, 100, 0, BLACK, 2, 255, WHITE, 255,  50, 50, "Hello", 32, BLACK, 255);
   pgb.image(pgRect, 100, 100);
   pgb.image(pgRectStroke, 100, 300);
   pgb.image(pgRectText, 100, 500);
@@ -76,32 +91,34 @@ void common_test_drawOthers(PGraphics pgb){
 
 void common_test_drawMove(PGraphics pgb){  
   int currentFrame = frameCount % 100;
-  movePG(LIB_COMMON_PG_RECT, pgb, 
+  movePG(pgb, LIB_COMMON_PG_RECT, 
        200, 100, 0, 500, 100, 0,
        currentFrame, 10, 90, true);
        
-  movePG(LIB_COMMON_PG_RECT, pgb, 
+  movePG(pgb, LIB_COMMON_PG_RECT, 
        200, 300, 0, 500, 300, 720,
        currentFrame, 10, 90, true);
        
-  movePG_bezier(LIB_COMMON_PG_RECT, pgb, 
-       200, 500, 400, 600, 300, 600, 500, 500, 0, 0,
+  movePG_bezier(pgb, LIB_COMMON_PG_RECT, 
+       200, 500, 0, 400, 600, 300, 600, 500, 500, 0,
        currentFrame, 10, 90, true);
        
-  movePG_bezier(LIB_COMMON_PG_RECT, pgb, 
-       200, 700, 400, 800, 300, 800, 500, 700, 0, 720,
+  movePG_bezier(pgb, LIB_COMMON_PG_RECT, 
+       200, 700, 0, 400, 800, 300, 800, 500, 700, 720,
        currentFrame, 10, 90, true);
 }
 
 void common_test_drawHorizontalVerticalRects(PGraphics pgb){
   int[] widths = {100, 75, 50, 50};
   int[] fillColors1 = {CONCRETE, CONCRETE, CONCRETE, CONCRETE};
+  int[] fillAlphas = {255,255,255,255};
   String[] texts1 = {"AA", "BB", "CC", "DD"};
   int[] textXs1 = {10, 10, 10, 10};
   int[] textColors1 = {WHITE, WHITE, WHITE, WHITE};
-  PGraphics pgHorizontalRects = getPG_horizontalRects(BLACK, 1.5, 255, 
-                                          widths, 50, fillColors1, 
-                                          texts1, 24, textXs1, 20, textColors1);
+  int[] textAlphas = {255,255,255,255};
+  PGraphics pgHorizontalRects = getPG_horizontalRects(widths, 50, BLACK, 1.5, 255, 
+                                                      fillColors1, fillAlphas,
+                                                      textXs1, 20, texts1, 24, textColors1, textAlphas);
 
   pgb.image(pgHorizontalRects, 100, 100);
   
@@ -111,9 +128,10 @@ void common_test_drawHorizontalVerticalRects(PGraphics pgb){
   int[] textXs2 = {50, 50, 50, 50};
   int[] textYs2 = {70, 50, 20, 20};
   int[] textColors2 = {WHITE, WHITE, WHITE, WHITE};
-  PGraphics pgVerticalRects = getPG_verticalRects(BLACK, 1.5, 255, 
-                                          200, heights, fillColors2, 
-                                          texts2, 24, textXs2, textYs2, textColors2);
+  PGraphics pgVerticalRects = getPG_verticalRects(200, heights, 
+                                                  BLACK, 1.5, 255, 
+                                                  fillColors2, fillAlphas,
+                                                  textXs2, textYs2, texts2, 24, textColors2, textAlphas);
 
   pgb.image(pgVerticalRects, 100, 300); 
 }
@@ -123,9 +141,10 @@ void common_test_drawTable(PGraphics pgb){
   String[][] texts = {{"A", "B", "C", "D"}, {"A", "B", "C", "D"}, {"A", "B", "C", "D"}, {"A", "B", "C", "D"}};
   int[][] textXs = {{10, 10, 10, 10}, {10, 10, 10, 10}, {10, 10, 10, 10}, {10, 10, 10, 10}};
   int[][] textColors = {{BLACK, BLACK, BLACK, BLACK}, {BLACK, BLACK, BLACK, BLACK}, {BLACK, BLACK, BLACK, BLACK}, {BLACK, BLACK, BLACK, BLACK}};
-  PGraphics pgVerticalTable = getPG_table(BLACK, 1.5, 255, CONCRETE, 255, 
-                                          columnWidths, 200, 
-                                          texts, 24, textXs, 30, textColors);
+  int[][] textAlphas = {{255,255,255,255},{255,255,255,255},{255,255,255,255},{255,255,255,255}};
+  PGraphics pgVerticalTable = getPG_table(columnWidths, 200, 
+                                          BLACK, 1.5, 255, CONCRETE, 255,
+                                          textXs, 30, texts, 24, textColors, textAlphas);
                                           
   pgb.image(pgVerticalTable, 100, 100);  
   noLoop();

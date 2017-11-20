@@ -19,11 +19,28 @@ void network_test_draw(){
   pgb.fill(255, 100);
   
   //TEST
-  //network_test_drawNetworkAsset(pgb);
-  //network_test_drawToplogy(pgb);
-  //network_test_drawIcon(pgb);
-  //network_test_drawNetworkAsset2(pgb);
-  network_test_drawNetworkAsset3(pgb);
+  boolean m = false;
+  if(m){
+    
+  }else{
+    int f = frameCount % 400;
+    int one_sec = 50;
+    if(f > one_sec * 7){
+      network_test_drawNetworkAsset3(pgb);
+    }else if(f > one_sec * 6){
+      network_test_drawNetworkAsset2(pgb);
+    }else if(f > one_sec * 5){
+      network_test_drawIcon(pgb);
+    }else if(f > one_sec * 4){
+      network_test_drawToplogy(pgb);
+    }else if(f > one_sec * 3){
+      network_test_drawNetworkAsset(pgb);
+    }else if(f > one_sec * 2){
+      network_test_drawBriefFormatsSmall(pgb);
+    }else{
+      network_test_drawBriefFormats(pgb);
+    }   
+  }
   
   drawPG_grid(pgb, CONCRETE, 1, 2, 255, 50, 250, 50, 250); 
   pgb.endDraw();

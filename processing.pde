@@ -1,4 +1,4 @@
-final boolean PROCESSING_IS_TEST = false;
+final boolean PROCESSING_IS_TEST = true;
 
 final int PROCESSING_TEST_COMMON = 0;
 final int PROCESSING_TEST_NETWORK = 1;

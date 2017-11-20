@@ -28,24 +28,30 @@ PGraphics getPG_network_bfEth(int strokeColor, float strokeWeight_, int strokeAl
   if(isReverse){
     int[] widths = {LIB_NETWORK_BF_ETH_WIDTH, LIB_NETWORK_BF_DATA_WIDTH};
     int[] fillColors = {fcEth, fcData};
+    int[] fillAlphas = {255, 255};
     String[] texts = {"Eth", "Data"};
     int[] textXs = {LIB_NETWORK_BF_ETH_X, LIB_NETWORK_BF_DATA_X};
     int[] textColors = {tcEth, tcData};
+    int[] textAlphas = {255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BF_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BF_TEXT_SIZE, textXs, LIB_NETWORK_BF_Y, textColors);  
+    return getPG_horizontalRects(widths, LIB_NETWORK_BF_HEIGHT, 
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BF_Y,texts, LIB_NETWORK_BF_TEXT_SIZE, textColors, textAlphas);  
                            
   }else{
     int[] widths = {LIB_NETWORK_BF_DATA_WIDTH, LIB_NETWORK_BF_ETH_WIDTH};
     int[] fillColors = {fcData, fcEth};
+    int[] fillAlphas = {255, 255};
     String[] texts = {"Data", "Eth"};
     int[] textXs = {LIB_NETWORK_BF_DATA_X, LIB_NETWORK_BF_ETH_X};
     int[] textColors = {tcData, tcEth};
+    int[] textAlphas = {255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BF_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BF_TEXT_SIZE, textXs, LIB_NETWORK_BF_Y, textColors);    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BF_HEIGHT, 
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BF_Y,texts, LIB_NETWORK_BF_TEXT_SIZE, textColors, textAlphas);    
   }
 }
 
@@ -56,24 +62,30 @@ PGraphics getPG_network_bfEthIp(int strokeColor, float strokeWeight_, int stroke
   if(isReverse){
     int[] widths = {LIB_NETWORK_BF_ETH_WIDTH, LIB_NETWORK_BF_IP_WIDTH, LIB_NETWORK_BF_DATA_WIDTH};
     int[] fillColors = {fcEth, fcIp, fcData};
+    int[] fillAlphas = {255, 255, 255};
     String[] texts = {"Eth", "IP", "Data"};
     int[] textXs = {LIB_NETWORK_BF_ETH_X, LIB_NETWORK_BF_IP_X, LIB_NETWORK_BF_DATA_X};
     int[] textColors = {tcEth, tcIp, tcData};
+    int[] textAlphas = {255, 255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BF_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BF_TEXT_SIZE, textXs, LIB_NETWORK_BF_Y, textColors);  
+    return getPG_horizontalRects(widths, LIB_NETWORK_BF_HEIGHT, 
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BF_Y,texts, LIB_NETWORK_BF_TEXT_SIZE, textColors, textAlphas);  
                            
   }else{
     int[] widths = {LIB_NETWORK_BF_DATA_WIDTH, LIB_NETWORK_BF_IP_WIDTH, LIB_NETWORK_BF_ETH_WIDTH};
     int[] fillColors = {fcData, fcIp, fcEth};
+    int[] fillAlphas = {255, 255, 255};
     String[] texts = {"Data", "IP", "Eth"};
     int[] textXs = {LIB_NETWORK_BF_DATA_X, LIB_NETWORK_BF_IP_X, LIB_NETWORK_BF_ETH_X};
     int[] textColors = {tcData, tcIp, tcEth};
+    int[] textAlphas = {255, 255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BF_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BF_TEXT_SIZE, textXs, LIB_NETWORK_BF_Y, textColors);    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BF_HEIGHT, 
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BF_Y,texts, LIB_NETWORK_BF_TEXT_SIZE, textColors, textAlphas);  
   }
 }
 
@@ -85,29 +97,35 @@ PGraphics getPG_network_bfEthIpTcp(int strokeColor, float strokeWeight_, int str
     int[] widths = {LIB_NETWORK_BF_ETH_WIDTH, LIB_NETWORK_BF_IP_WIDTH, LIB_NETWORK_BF_TCPUDP_WIDTH, LIB_NETWORK_BF_DATA_WIDTH};
     int[] fillColors = {fcEth, fcIp, fcTcp, fcData};
     String[] texts = {"Eth", "IP", "TCP", "Data"};
+    int[] fillAlphas = {255, 255, 255, 255};
     if(isUDP){
       texts[2] = "UDP";
     }
     int[] textXs = {LIB_NETWORK_BF_ETH_X, LIB_NETWORK_BF_IP_X, LIB_NETWORK_BF_TCPUDP_X, LIB_NETWORK_BF_DATA_X};
     int[] textColors = {tcEth, tcIp, tcTcp, tcData};
+    int[] textAlphas = {255, 255, 255, 255};    
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BF_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BF_TEXT_SIZE, textXs, LIB_NETWORK_BF_Y, textColors);  
+    return getPG_horizontalRects(widths, LIB_NETWORK_BF_HEIGHT, 
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BF_Y,texts, LIB_NETWORK_BF_TEXT_SIZE, textColors, textAlphas);  
                            
   }else{
     int[] widths = {LIB_NETWORK_BF_DATA_WIDTH, LIB_NETWORK_BF_TCPUDP_WIDTH, LIB_NETWORK_BF_IP_WIDTH, LIB_NETWORK_BF_ETH_WIDTH};
     int[] fillColors = {fcData, fcTcp, fcIp, fcEth};
     String[] texts = {"Data", "TCP", "IP", "Eth"};
+    int[] fillAlphas = {255, 255, 255, 255};
     if(isUDP){
       texts[1] = "UDP";
     }
     int[] textXs = {LIB_NETWORK_BF_DATA_X, LIB_NETWORK_BF_TCPUDP_X, LIB_NETWORK_BF_IP_X, LIB_NETWORK_BF_ETH_X};
     int[] textColors = {tcData, tcTcp, tcIp, tcEth};
+    int[] textAlphas = {255, 255, 255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BF_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BF_TEXT_SIZE, textXs, LIB_NETWORK_BF_Y, textColors);    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BF_HEIGHT, 
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BF_Y,texts, LIB_NETWORK_BF_TEXT_SIZE, textColors, textAlphas);   
   }
 }
 
@@ -118,24 +136,30 @@ PGraphics getPG_network_bfIp(int strokeColor, float strokeWeight_, int strokeAlp
   if(isReverse){
     int[] widths = {LIB_NETWORK_BF_IP_WIDTH, LIB_NETWORK_BF_DATA_WIDTH};
     int[] fillColors = {fcIp, fcData};
+    int[] fillAlphas = {255, 255};
     String[] texts = {"IP", "Data"};
     int[] textXs = {LIB_NETWORK_BF_IP_X, LIB_NETWORK_BF_DATA_X};
     int[] textColors = {tcIp, tcData};
+    int[] textAlphas = {255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BF_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BF_TEXT_SIZE, textXs, LIB_NETWORK_BF_Y, textColors);  
+    return getPG_horizontalRects(widths, LIB_NETWORK_BF_HEIGHT, 
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BF_Y,texts, LIB_NETWORK_BF_TEXT_SIZE, textColors, textAlphas);  
                            
   }else{
     int[] widths = {LIB_NETWORK_BF_DATA_WIDTH, LIB_NETWORK_BF_IP_WIDTH};
     int[] fillColors = {fcData, fcIp};
+    int[] fillAlphas = {255, 255};
     String[] texts = {"Data", "IP"};
     int[] textXs = {LIB_NETWORK_BF_DATA_X, LIB_NETWORK_BF_IP_X, };
     int[] textColors = {tcData, tcIp};
+    int[] textAlphas = {255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BF_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BF_TEXT_SIZE, textXs, LIB_NETWORK_BF_Y, textColors);    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BF_HEIGHT, 
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BF_Y,texts, LIB_NETWORK_BF_TEXT_SIZE, textColors, textAlphas);   
   }
 }
 
@@ -146,30 +170,36 @@ PGraphics getPG_network_bfIpTcp(int strokeColor, float strokeWeight_, int stroke
   if(isReverse){
     int[] widths = {LIB_NETWORK_BF_IP_WIDTH, LIB_NETWORK_BF_TCPUDP_WIDTH, LIB_NETWORK_BF_DATA_WIDTH};
     int[] fillColors = {fcIp, fcTcp, fcData};
+    int[] fillAlphas = {255, 255, 255};
     String[] texts = {"IP", "TCP", "Data"};
     if(isUDP){
       texts[1] = "UDP";
     }
     int[] textXs = {LIB_NETWORK_BF_IP_X, LIB_NETWORK_BF_TCPUDP_X, LIB_NETWORK_BF_DATA_X};
     int[] textColors = {tcIp, tcTcp, tcData};
+    int[] textAlphas = {255, 255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BF_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BF_TEXT_SIZE, textXs, LIB_NETWORK_BF_Y, textColors);  
+    return getPG_horizontalRects(widths, LIB_NETWORK_BF_HEIGHT, 
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BF_Y,texts, LIB_NETWORK_BF_TEXT_SIZE, textColors, textAlphas);   
                            
   }else{
     int[] widths = {LIB_NETWORK_BF_DATA_WIDTH, LIB_NETWORK_BF_TCPUDP_WIDTH, LIB_NETWORK_BF_IP_WIDTH};
     int[] fillColors = {fcData, fcTcp, fcIp};
+    int[] fillAlphas = {255, 255, 255};
     String[] texts = {"Data", "TCP", "IP"};
     if(isUDP){
       texts[1] = "UDP";
     }
     int[] textXs = {LIB_NETWORK_BF_DATA_X, LIB_NETWORK_BF_TCPUDP_X, LIB_NETWORK_BF_IP_X};
     int[] textColors = {tcData, tcTcp, tcIp};
+    int[] textAlphas = {255, 255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BF_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BF_TEXT_SIZE, textXs, LIB_NETWORK_BF_Y, textColors);    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BF_HEIGHT, 
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BF_Y,texts, LIB_NETWORK_BF_TEXT_SIZE, textColors, textAlphas);    
   }
 }
 
@@ -180,30 +210,36 @@ PGraphics getPG_network_bfTcp(int strokeColor, float strokeWeight_, int strokeAl
   if(isReverse){
     int[] widths = {LIB_NETWORK_BF_TCPUDP_WIDTH, LIB_NETWORK_BF_DATA_WIDTH};
     int[] fillColors = {fcTcp, fcData};
+    int[] fillAlphas = {255, 255};
     String[] texts = {"TCP", "Data"};
     if(isUDP){
       texts[0] = "UDP";
     }
     int[] textXs = {LIB_NETWORK_BF_TCPUDP_X, LIB_NETWORK_BF_DATA_X};
     int[] textColors = {tcTcp, tcData};
+    int[] textAlphas = {255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BF_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BF_TEXT_SIZE, textXs, LIB_NETWORK_BF_Y, textColors);  
+    return getPG_horizontalRects(widths, LIB_NETWORK_BF_HEIGHT, 
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BF_Y,texts, LIB_NETWORK_BF_TEXT_SIZE, textColors, textAlphas);  
                            
   }else{
     int[] widths = {LIB_NETWORK_BF_DATA_WIDTH, LIB_NETWORK_BF_TCPUDP_WIDTH};
     int[] fillColors = {fcData, fcTcp};
+    int[] fillAlphas = {255, 255};
     String[] texts = {"Data", "TCP"};
     if(isUDP){
       texts[1] = "UDP";
     }
     int[] textXs = {LIB_NETWORK_BF_DATA_X, LIB_NETWORK_BF_TCPUDP_X, };
     int[] textColors = {tcData, tcTcp};
+    int[] textAlphas = {255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BF_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BF_TEXT_SIZE, textXs, LIB_NETWORK_BF_Y, textColors);    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BF_HEIGHT, 
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BF_Y,texts, LIB_NETWORK_BF_TEXT_SIZE, textColors, textAlphas);    
   }
 }
 
@@ -212,13 +248,16 @@ PGraphics getPG_network_bfData(int strokeColor, float strokeWeight_, int strokeA
   
   int[] widths = {LIB_NETWORK_BF_DATA_WIDTH};
   int[] fillColors = {fcData};
+  int[] fillAlphas = {255};
   String[] texts = {"Data"};
   int[] textXs = {LIB_NETWORK_BF_DATA_X};
   int[] textColors = {tcData};
-  
-  return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                         widths, LIB_NETWORK_BF_HEIGHT, fillColors, 
-                         texts, LIB_NETWORK_BF_TEXT_SIZE, textXs, LIB_NETWORK_BF_Y, textColors);  
+  int[] textAlphas = {255};
+    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BF_HEIGHT, 
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BF_Y,texts, LIB_NETWORK_BF_TEXT_SIZE, textColors, textAlphas);  
 }
 
 
@@ -245,24 +284,30 @@ PGraphics getPG_network_bfsEth(int strokeColor, float strokeWeight_, int strokeA
   if(isReverse){
     int[] widths = {LIB_NETWORK_BFS_ETH_WIDTH, LIB_NETWORK_BFS_DATA_WIDTH};
     int[] fillColors = {fcEth, fcData};
+    int[] fillAlphas = {255, 255};
     String[] texts = {"Eth", "Data"};
     int[] textXs = {LIB_NETWORK_BFS_ETH_X, LIB_NETWORK_BFS_DATA_X};
     int[] textColors = {tcEth, tcData};
+    int[] textAlphas = {255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BFS_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BFS_TEXT_SIZE, textXs, LIB_NETWORK_BFS_Y, textColors);  
+    return getPG_horizontalRects(widths, LIB_NETWORK_BFS_HEIGHT,
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BFS_Y, texts, LIB_NETWORK_BFS_TEXT_SIZE,  textColors, textAlphas);  
                            
   }else{
     int[] widths = {LIB_NETWORK_BFS_DATA_WIDTH, LIB_NETWORK_BFS_ETH_WIDTH};
     int[] fillColors = {fcData, fcEth};
+    int[] fillAlphas = {255, 255};
     String[] texts = {"Data", "Eth"};
     int[] textXs = {LIB_NETWORK_BFS_DATA_X, LIB_NETWORK_BFS_ETH_X};
     int[] textColors = {tcData, tcEth};
+    int[] textAlphas = {255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BFS_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BFS_TEXT_SIZE, textXs, LIB_NETWORK_BFS_Y, textColors);    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BFS_HEIGHT,
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BFS_Y, texts, LIB_NETWORK_BFS_TEXT_SIZE,  textColors, textAlphas);    
   }
 }
 
@@ -273,24 +318,30 @@ PGraphics getPG_network_bfsEthIp(int strokeColor, float strokeWeight_, int strok
   if(isReverse){
     int[] widths = {LIB_NETWORK_BFS_ETH_WIDTH, LIB_NETWORK_BFS_IP_WIDTH, LIB_NETWORK_BFS_DATA_WIDTH};
     int[] fillColors = {fcEth, fcIp, fcData};
+    int[] fillAlphas = {255, 255, 255};
     String[] texts = {"Eth", "IP", "Data"};
     int[] textXs = {LIB_NETWORK_BFS_ETH_X, LIB_NETWORK_BFS_IP_X, LIB_NETWORK_BFS_DATA_X};
     int[] textColors = {tcEth, tcIp, tcData};
+    int[] textAlphas = {255, 255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BFS_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BFS_TEXT_SIZE, textXs, LIB_NETWORK_BFS_Y, textColors);  
+    return getPG_horizontalRects(widths, LIB_NETWORK_BFS_HEIGHT,
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BFS_Y, texts, LIB_NETWORK_BFS_TEXT_SIZE,  textColors, textAlphas);  
                            
   }else{
     int[] widths = {LIB_NETWORK_BFS_DATA_WIDTH, LIB_NETWORK_BFS_IP_WIDTH, LIB_NETWORK_BFS_ETH_WIDTH};
     int[] fillColors = {fcData, fcIp, fcEth};
+    int[] fillAlphas = {255, 255, 255};
     String[] texts = {"Data", "IP", "Eth"};
     int[] textXs = {LIB_NETWORK_BFS_DATA_X, LIB_NETWORK_BFS_IP_X, LIB_NETWORK_BFS_ETH_X};
     int[] textColors = {tcData, tcIp, tcEth};
+    int[] textAlphas = {255, 255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BFS_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BFS_TEXT_SIZE, textXs, LIB_NETWORK_BFS_Y, textColors);    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BFS_HEIGHT,
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BFS_Y, texts, LIB_NETWORK_BFS_TEXT_SIZE,  textColors, textAlphas);   
   }
 }
 
@@ -301,30 +352,36 @@ PGraphics getPG_network_bfsEthIpTcp(int strokeColor, float strokeWeight_, int st
   if(isReverse){
     int[] widths = {LIB_NETWORK_BFS_ETH_WIDTH, LIB_NETWORK_BFS_IP_WIDTH, LIB_NETWORK_BFS_TCPUDP_WIDTH, LIB_NETWORK_BFS_DATA_WIDTH};
     int[] fillColors = {fcEth, fcIp, fcTcp, fcData};
+    int[] fillAlphas = {255, 255, 255, 255};
     String[] texts = {"Eth", "IP", "TCP", "Data"};
     if(isUDP){
       texts[2] = "UDP";
     }
     int[] textXs = {LIB_NETWORK_BFS_ETH_X, LIB_NETWORK_BFS_IP_X, LIB_NETWORK_BFS_TCPUDP_X, LIB_NETWORK_BFS_DATA_X};
     int[] textColors = {tcEth, tcIp, tcTcp, tcData};
+    int[] textAlphas = {255, 255, 255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BFS_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BFS_TEXT_SIZE, textXs, LIB_NETWORK_BFS_Y, textColors);  
+    return getPG_horizontalRects(widths, LIB_NETWORK_BFS_HEIGHT,
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BFS_Y, texts, LIB_NETWORK_BFS_TEXT_SIZE,  textColors, textAlphas);  
                            
   }else{
     int[] widths = {LIB_NETWORK_BFS_DATA_WIDTH, LIB_NETWORK_BFS_TCPUDP_WIDTH, LIB_NETWORK_BFS_IP_WIDTH, LIB_NETWORK_BFS_ETH_WIDTH};
     int[] fillColors = {fcData, fcTcp, fcIp, fcEth};
+    int[] fillAlphas = {255, 255, 255, 255};
     String[] texts = {"Data", "TCP", "IP", "Eth"};
     if(isUDP){
       texts[1] = "UDP";
     }
     int[] textXs = {LIB_NETWORK_BFS_DATA_X, LIB_NETWORK_BFS_TCPUDP_X, LIB_NETWORK_BFS_IP_X, LIB_NETWORK_BFS_ETH_X};
     int[] textColors = {tcData, tcTcp, tcIp, tcEth};
+    int[] textAlphas = {255, 255, 255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BFS_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BFS_TEXT_SIZE, textXs, LIB_NETWORK_BFS_Y, textColors);    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BFS_HEIGHT,
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BFS_Y, texts, LIB_NETWORK_BFS_TEXT_SIZE,  textColors, textAlphas);   
   }
 }
 
@@ -335,24 +392,31 @@ PGraphics getPG_network_bfsIp(int strokeColor, float strokeWeight_, int strokeAl
   if(isReverse){
     int[] widths = {LIB_NETWORK_BFS_IP_WIDTH, LIB_NETWORK_BFS_DATA_WIDTH};
     int[] fillColors = {fcIp, fcData};
+    int[] fillAlphas = {255, 255};
     String[] texts = {"IP", "Data"};
     int[] textXs = {LIB_NETWORK_BFS_IP_X, LIB_NETWORK_BFS_DATA_X};
     int[] textColors = {tcIp, tcData};
+    int[] textAlphas = {255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BFS_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BFS_TEXT_SIZE, textXs, LIB_NETWORK_BFS_Y, textColors);  
+    return getPG_horizontalRects(widths, LIB_NETWORK_BFS_HEIGHT,
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BFS_Y, texts, LIB_NETWORK_BFS_TEXT_SIZE,  textColors, textAlphas);  
                            
   }else{
     int[] widths = {LIB_NETWORK_BFS_DATA_WIDTH, LIB_NETWORK_BFS_IP_WIDTH};
     int[] fillColors = {fcData, fcIp};
+    int[] fillAlphas = {255, 255};
     String[] texts = {"Data", "IP"};
+    
     int[] textXs = {LIB_NETWORK_BFS_DATA_X, LIB_NETWORK_BFS_IP_X, };
     int[] textColors = {tcData, tcIp};
+    int[] textAlphas = {255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BFS_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BFS_TEXT_SIZE, textXs, LIB_NETWORK_BFS_Y, textColors);    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BFS_HEIGHT,
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BFS_Y, texts, LIB_NETWORK_BFS_TEXT_SIZE,  textColors, textAlphas);    
   }
 }
 
@@ -363,30 +427,36 @@ PGraphics getPG_network_bfsIpTcp(int strokeColor, float strokeWeight_, int strok
   if(isReverse){
     int[] widths = {LIB_NETWORK_BFS_IP_WIDTH, LIB_NETWORK_BFS_TCPUDP_WIDTH, LIB_NETWORK_BFS_DATA_WIDTH};
     int[] fillColors = {fcIp, fcTcp, fcData};
+    int[] fillAlphas = {255, 255, 255};
     String[] texts = {"IP", "TCP", "Data"};
     if(isUDP){
       texts[1] = "UDP";
     }
     int[] textXs = {LIB_NETWORK_BFS_IP_X, LIB_NETWORK_BFS_TCPUDP_X, LIB_NETWORK_BFS_DATA_X};
     int[] textColors = {tcIp, tcTcp, tcData};
+    int[] textAlphas = {255, 255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BFS_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BFS_TEXT_SIZE, textXs, LIB_NETWORK_BFS_Y, textColors);  
+    return getPG_horizontalRects(widths, LIB_NETWORK_BFS_HEIGHT,
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BFS_Y, texts, LIB_NETWORK_BFS_TEXT_SIZE,  textColors, textAlphas);   
                            
   }else{
     int[] widths = {LIB_NETWORK_BFS_DATA_WIDTH, LIB_NETWORK_BFS_TCPUDP_WIDTH, LIB_NETWORK_BFS_IP_WIDTH};
     int[] fillColors = {fcData, fcTcp, fcIp};
+    int[] fillAlphas = {255, 255, 255};
     String[] texts = {"Data", "TCP", "IP"};
     if(isUDP){
       texts[1] = "UDP";
     }
     int[] textXs = {LIB_NETWORK_BFS_DATA_X, LIB_NETWORK_BFS_TCPUDP_X, LIB_NETWORK_BFS_IP_X};
     int[] textColors = {tcData, tcTcp, tcIp};
+    int[] textAlphas = {255, 255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BFS_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BFS_TEXT_SIZE, textXs, LIB_NETWORK_BFS_Y, textColors);    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BFS_HEIGHT,
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BFS_Y, texts, LIB_NETWORK_BFS_TEXT_SIZE,  textColors, textAlphas);    
   }
 }
 
@@ -397,30 +467,36 @@ PGraphics getPG_network_bfsTcp(int strokeColor, float strokeWeight_, int strokeA
   if(isReverse){
     int[] widths = {LIB_NETWORK_BFS_TCPUDP_WIDTH, LIB_NETWORK_BFS_DATA_WIDTH};
     int[] fillColors = {fcTcp, fcData};
+    int[] fillAlphas = {255, 255};
     String[] texts = {"TCP", "Data"};
     if(isUDP){
       texts[0] = "UDP";
     }
     int[] textXs = {LIB_NETWORK_BFS_TCPUDP_X, LIB_NETWORK_BFS_DATA_X};
     int[] textColors = {tcTcp, tcData};
+    int[] textAlphas = {255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BFS_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BFS_TEXT_SIZE, textXs, LIB_NETWORK_BFS_Y, textColors);  
+    return getPG_horizontalRects(widths, LIB_NETWORK_BFS_HEIGHT,
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BFS_Y, texts, LIB_NETWORK_BFS_TEXT_SIZE,  textColors, textAlphas);  
                            
   }else{
     int[] widths = {LIB_NETWORK_BFS_DATA_WIDTH, LIB_NETWORK_BFS_TCPUDP_WIDTH};
     int[] fillColors = {fcData, fcTcp};
+    int[] fillAlphas = {255, 255};
     String[] texts = {"Data", "TCP"};
     if(isUDP){
       texts[1] = "UDP";
     }
     int[] textXs = {LIB_NETWORK_BFS_DATA_X, LIB_NETWORK_BFS_TCPUDP_X, };
     int[] textColors = {tcData, tcTcp};
+    int[] textAlphas = {255, 255};
     
-    return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                           widths, LIB_NETWORK_BFS_HEIGHT, fillColors, 
-                           texts, LIB_NETWORK_BFS_TEXT_SIZE, textXs, LIB_NETWORK_BFS_Y, textColors);    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BFS_HEIGHT,
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BFS_Y, texts, LIB_NETWORK_BFS_TEXT_SIZE,  textColors, textAlphas);     
   }
 }
 
@@ -429,13 +505,16 @@ PGraphics getPG_network_bfsData(int strokeColor, float strokeWeight_, int stroke
   
   int[] widths = {LIB_NETWORK_BFS_DATA_WIDTH};
   int[] fillColors = {fcData};
+  int[] fillAlphas = {255};
   String[] texts = {"Data"};
   int[] textXs = {LIB_NETWORK_BFS_DATA_X};
   int[] textColors = {tcData};
-  
-  return getPG_horizontalRects(strokeColor, strokeWeight_, strokeAlpha, 
-                         widths, LIB_NETWORK_BFS_HEIGHT, fillColors, 
-                         texts, LIB_NETWORK_BFS_TEXT_SIZE, textXs, LIB_NETWORK_BFS_Y, textColors);  
+  int[] textAlphas = {255};
+    
+    return getPG_horizontalRects(widths, LIB_NETWORK_BFS_HEIGHT,
+                                 strokeColor, strokeWeight_, strokeAlpha, 
+                                 fillColors, fillAlphas,
+                                 textXs, LIB_NETWORK_BFS_Y, texts, LIB_NETWORK_BFS_TEXT_SIZE,  textColors, textAlphas);  
 }
 
 
