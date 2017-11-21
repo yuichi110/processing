@@ -43,6 +43,8 @@ void network_test_draw(){
   }
   
   drawPG_grid(pgb, CONCRETE, 1, 2, 255, 50, 250, 50, 250); 
+  drawPG_mouseXY(pgb);
+  
   pgb.endDraw();
   image(pgb, 0, 0);  
   if(frameCount <= 200){
@@ -250,18 +252,17 @@ void network_test_drawToplogy(PGraphics pgb){
 }
 
 void network_test_drawIcon(PGraphics pgb){
- pgb.background(0);
  
- PGraphics l2sw = getPG_l2SwitchIcon(100, WHITE);
+ PGraphics l2sw = getPG_l2SwitchIcon(100, BLACK);
  pgb.image(l2sw, 100, 100);
 
- PGraphics router = getPG_routerIcon(100, WHITE);
+ PGraphics router = getPG_routerIcon(100, BLACK);
  pgb.image(router, 100, 300);
  
- PGraphics l3sw = getPG_l3SwitchIcon(100, WHITE);
+ PGraphics l3sw = getPG_l3SwitchIcon(100, BLACK);
  pgb.image(l3sw, 100, 500);
  
- PGraphics pc = getPG_pcIcon(100, WHITE);
+ PGraphics pc = getPG_pcIcon(100, BLACK);
  pgb.image(pc, 100, 700);
  
 

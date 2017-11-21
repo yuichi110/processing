@@ -122,6 +122,157 @@ void movePG_bezier(PGraphics pgb, PGraphics pg,
   }
 }
 
+class Flow{
+  PGraphics pgb;
+  PGraphics pg;
+  PVector[] flowArray;
+  int[] frameArray;
+  boolean startMode = false;
+  boolean stopMode = false;
+  
+  Flow(int[] xs, int ys[], int frames, int numItems){
+    
+    this.flowArray = new PVector[frames];
+    flowArray[0] = new PVector(xs[0], ys[0]);
+    flowArray[flowArray.length-1] = new PVector(xs[xs.length-1], ys[xs.length-1]);
+    
+    float sum_distance = 0;
+    for(int i=0; i<xs.length-2; i++){
+      sum_distance += dist(xs[i], ys[i], xs[i+1], ys[i+1]); 
+    }
+    println("sum distance: " + sum_distance);
+    
+    int anchorFrames[] = new int[xs.length];
+    float sum_distance2 = 0;
+    for(int i=0; i<xs.length-2; i++){
+      sum_distance2 += dist(xs[i], ys[i], xs[i+1], ys[i+1]);
+      anchorFrames[i+1] = int(frames * (sum_distance2 / sum_distance));
+      println("anchorFrames: " + anchorFrames[i+1]);
+    }
+    anchorFrames[0] = 0;
+    anchorFrames[xs.length-1] = frames - 1;
+    
+    for(int i=0; i<anchorFrames.length-2; i++){
+      int startFrame = anchorFrames[i];
+      int x1 = xs[i];
+      int y1 = ys[i];
+      int endFrame = anchorFrames[i+1];
+      int x2 = xs[i+1];
+      int y2 = ys[i+1];
+      
+      for(int currentFrame=startFrame; currentFrame<endFrame; currentFrame++){
+        float p = (currentFrame - startFrame)/float(endFrame - startFrame);
+        int x = x1 + int((x2 - x1) * p);
+        int y = y1 + int((y2 - y1) * p);
+        flowArray[currentFrame] = new PVector(x, y);
+      }
+    }
+    
+    frameArray = new int[numItems];
+    for(int i=0; i<frameArray.length; i++){
+      frameArray[i] = -1; 
+    }
+    
+  }
+  
+  void start(){
+    startMode = true;
+    stopMode = false;
+  }
+  
+  void stop(){
+    startMode = false;
+    stopMode = true;
+  }
+  
+  void draw(PGraphics pgb, PGraphics pg, boolean debug){  
+    
+    if(debug){
+      String text = "";
+      for(int i=0; i<frameArray.length; i++){
+        text += frameArray[i] + ", ";
+      }
+      println(text);      
+    }
+
+    if(startMode){
+      int startLine = flowArray.length / frameArray.length;
+      
+      boolean allStarted = true;
+      for(int i=0; i<frameArray.length; i++){
+        if(i==0){
+          if(frameArray[0]==-1){
+            frameArray[0] = 0;
+          }
+          
+        }else{
+          if(frameArray[i]==-1 && frameArray[i-1] == startLine){
+            frameArray[i] = 0;
+          }
+        }
+        
+        if(frameArray[i] == -1){
+          allStarted = false; 
+        }
+      }
+      
+      if(allStarted){
+        startMode = false; 
+      }
+    }
+    
+
+    
+    // Draw
+    for(int i=0; i<frameArray.length; i++){
+      if(frameArray[i] == -1){
+        continue; 
+      }  
+      
+      PVector pv = flowArray[frameArray[i]];
+      if(pv != null){
+        pgb.image(pg, pv.x, pv.y);
+      }else{
+        println("ERROR");
+      } 
+    }
+    
+    int frameMax = flowArray.length - 1;
+    for(int i=0; i<frameArray.length; i++){
+      if(frameArray[i] == -1){
+        continue; 
+      }
+      
+      if(frameArray[i] == frameMax){
+        if(stopMode){
+          frameArray[i] = -1; 
+        }else{
+          frameArray[i] = 0; 
+        }
+      }else{
+        frameArray[i] = frameArray[i] +1;
+      } 
+    }
+    
+    if(debug){
+      for(int i=0; i<flowArray.length-1; i++){
+        if(i%10 != 0){
+          continue;
+        }
+        
+        PVector pv = flowArray[i];
+        if(pv != null){
+          pgb.ellipse(pv.x, pv.y, 5, 5);
+        }else{
+          println("ERROR");
+        } 
+      }      
+    }
+
+  }
+  
+}
+
 void saveCurrentFrame(PGraphics pg, String fileName){
   if(!common_save_enabled) return;
   
@@ -814,5 +965,14 @@ void drawPG_grid(PGraphics pg, int strokeColor, int strokeWeight_,
       }else{
           drawPG_line(pg, 0, y, pg.width, y, strokeColor, strokeWeight_, strokeAlpha);
       }
+  }
+}
+
+void drawPG_mouseXY(PGraphics pg){
+  if(mousePressed == true){
+    int drawX = pg.width - 250;
+    int drawY = pg.height - 50;
+    String text = "X:" + mouseX + ", Y:" + mouseY;
+    drawPG_text(pg, drawX, drawY, text, 32, BLACK, 255);
   }
 }

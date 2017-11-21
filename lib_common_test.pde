@@ -1,4 +1,6 @@
 PGraphics LIB_COMMON_PG_RECT;
+Flow LIB_COMMON_FLOW;
+PGraphics LIB_COMMON_RED_BALL;
 
 void common_test_settings(){
  size(1200, 800); 
@@ -12,6 +14,17 @@ void common_test_setup(){
   
   frameRate(50);
   LIB_COMMON_PG_RECT = getPG_rect(200, 100, 0, BLACK, 2, 255, WHITE, 255);
+  int xs[] = {100, 200, 300, 400, 500};
+  int ys[] = {100, 600, 100, 200, 100};
+  LIB_COMMON_FLOW = new Flow(xs, ys, 100, 10);
+  LIB_COMMON_FLOW.start();
+  
+  LIB_COMMON_RED_BALL = createGraphics(10, 10);
+  LIB_COMMON_RED_BALL.beginDraw();
+  LIB_COMMON_RED_BALL.noStroke();
+  LIB_COMMON_RED_BALL.fill(255, 0, 0);
+  LIB_COMMON_RED_BALL.ellipse(5, 5, 10, 10);
+  LIB_COMMON_RED_BALL.endDraw();
 }
 
 void common_test_draw(){
@@ -22,7 +35,12 @@ void common_test_draw(){
   
   boolean m = true;
   if(m){
-    common_test_drawMove(pgb);
+    //common_test_drawMove(pgb);
+    LIB_COMMON_FLOW.draw(pgb, LIB_COMMON_RED_BALL, false);
+    
+    if(frameCount == 1000){
+       LIB_COMMON_FLOW.stop();
+    }
   }else{
     int f = frameCount % 400;
     int one_sec = 50;
@@ -53,6 +71,8 @@ void common_test_draw(){
     String fileName = String.format("%04d", frameCount) + ".png";
     saveCurrentFrame(pgb, fileName);
   }
+  
+  //noLoop();
 }
 
 /*
