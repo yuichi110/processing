@@ -3,40 +3,34 @@ Flow LIB_COMMON_FLOW;
 PGraphics LIB_COMMON_RED_BALL;
 
 void common_test_settings(){
- size(1200, 800); 
+ size(1600, 900); 
 }
 
-void common_test_setup(){
-  // global
-  common_guidegrid_enabled = true;
-  common_save_enabled = false;
-  common_save_mode = SAVE_MODE_TRANSPARENT ;
-  
+void common_test_setup(){  
   frameRate(50);
-  LIB_COMMON_PG_RECT = getPG_rect(200, 100, 0, BLACK, 2, 255, WHITE, 255);
-  int xs[] = {100, 200, 300, 400, 500};
-  int ys[] = {100, 600, 100, 200, 100};
-  LIB_COMMON_FLOW = new Flow(xs, ys, 100, 10);
-  LIB_COMMON_FLOW.start();
+  processing_debug = true;
   
+  // RECTANGLE for MOVE TEST
+  LIB_COMMON_PG_RECT = getPG_rect(200, 100, 0, BLACK, 2, 255, WHITE, 255);
+  
+  // RED BALL AND FLOW OBJECT FOR FLOW TEST
   LIB_COMMON_RED_BALL = createGraphics(10, 10);
   LIB_COMMON_RED_BALL.beginDraw();
   LIB_COMMON_RED_BALL.noStroke();
   LIB_COMMON_RED_BALL.fill(255, 0, 0);
   LIB_COMMON_RED_BALL.ellipse(5, 5, 10, 10);
-  LIB_COMMON_RED_BALL.endDraw();
+  LIB_COMMON_RED_BALL.endDraw();  
+  int xs[] = {100, 200, 300, 400, 500};
+  int ys[] = {100, 200, 100, 200, 100};
+  LIB_COMMON_FLOW = new Flow(xs, ys, 150, 10);
+  LIB_COMMON_FLOW.start();
 }
 
-void common_test_draw(){
-  background(255); 
-  PGraphics pgb = createGraphics(width, height);
-  pgb.beginDraw();
-  pgb.fill(255, 100);
-  
+void common_test_draw(PGraphics pgb){
   boolean m = true;
   if(m){
     //common_test_drawMove(pgb);
-    LIB_COMMON_FLOW.draw(pgb, LIB_COMMON_RED_BALL, false);
+    LIB_COMMON_FLOW.draw(pgb, LIB_COMMON_RED_BALL);
     
     if(frameCount == 1000){
        LIB_COMMON_FLOW.stop();
@@ -60,19 +54,6 @@ void common_test_draw(){
       common_test_drawLine(pgb);
     }   
   }
-
-
-  
-  drawPG_grid(pgb, CONCRETE, 1, 2, 255, 50, 250, 50, 250); 
-  pgb.endDraw();
-  image(pgb, 0, 0);  
-  
-  if(frameCount <= 200){
-    String fileName = String.format("%04d", frameCount) + ".png";
-    saveCurrentFrame(pgb, fileName);
-  }
-  
-  //noLoop();
 }
 
 /*
@@ -113,19 +94,19 @@ void common_test_drawMove(PGraphics pgb){
   int currentFrame = frameCount % 100;
   movePG(pgb, LIB_COMMON_PG_RECT, 
        200, 100, 0, 500, 100, 0,
-       currentFrame, 10, 90, true);
+       currentFrame, 10, 90);
        
   movePG(pgb, LIB_COMMON_PG_RECT, 
        200, 300, 0, 500, 300, 720,
-       currentFrame, 10, 90, true);
+       currentFrame, 10, 90);
        
   movePG_bezier(pgb, LIB_COMMON_PG_RECT, 
        200, 500, 0, 400, 600, 300, 600, 500, 500, 0,
-       currentFrame, 10, 90, true);
+       currentFrame, 10, 90);
        
   movePG_bezier(pgb, LIB_COMMON_PG_RECT, 
        200, 700, 0, 400, 800, 300, 800, 500, 700, 720,
-       currentFrame, 10, 90, true);
+       currentFrame, 10, 90);
 }
 
 void common_test_drawHorizontalVerticalRects(PGraphics pgb){

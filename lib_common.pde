@@ -34,30 +34,18 @@ final int BLUEGEM = 0;
 final int WHITESMOKE = 0;
 final int TERRACOTTA = 0;
 
-// POSISION
-
-// SAVE
-final int SAVE_MODE_BACKGROUND = 0;
-final int SAVE_MODE_TRANSPARENT = 1;
-boolean common_save_enabled = false;
-int common_save_mode = 0;
-
-// GRID ENABLED
-boolean common_guidegrid_enabled = false;
-
-
 /*
 UTILITY
 */
 
 void movePG(PGraphics pgb, PGraphics pg, 
             int x1, int y1, int r1, int x2, int y2, int r2, 
-            int currentFrame, int startFrame, int endFrame, boolean debug){
+            int currentFrame, int startFrame, int endFrame){
             
   if(currentFrame < startFrame) return;
   if(endFrame < currentFrame) return;
   
-  if(debug){
+  if(processing_debug){
     setPG_stroke(pgb, RED, 2, 255);
     setPG_fill(pgb, RED, 255);
     pgb.line(x1, y1, x2, y2);
@@ -84,12 +72,12 @@ void movePG(PGraphics pgb, PGraphics pg,
 
 void movePG_bezier(PGraphics pgb, PGraphics pg,
                    int x1, int y1, int r1, int x2, int y2, int x3, int y3, int x4, int y4, int r2,
-                   int currentFrame, int startFrame, int endFrame, boolean debug){
+                   int currentFrame, int startFrame, int endFrame){
 
   if(currentFrame < startFrame) return;
   if(endFrame < currentFrame) return;
 
-  if(debug){
+  if(processing_debug){
      setPG_stroke(pgb, BLUE, 2, 255);
      setPG_fill(pgb, BLUE, 255);
      pgb.line(x1, y1, x2, y2);
@@ -127,8 +115,10 @@ class Flow{
   PGraphics pg;
   PVector[] flowArray;
   int[] frameArray;
+  int[] anchorFrames;
   boolean startMode = false;
   boolean stopMode = false;
+  boolean enabled = false;
   
   Flow(int[] xs, int ys[], int frames, int numItems){
     
@@ -137,22 +127,25 @@ class Flow{
     flowArray[flowArray.length-1] = new PVector(xs[xs.length-1], ys[xs.length-1]);
     
     float sum_distance = 0;
-    for(int i=0; i<xs.length-2; i++){
+    for(int i=0; i<xs.length-1; i++){
       sum_distance += dist(xs[i], ys[i], xs[i+1], ys[i+1]); 
     }
     println("sum distance: " + sum_distance);
     
-    int anchorFrames[] = new int[xs.length];
+    anchorFrames = new int[xs.length];
     float sum_distance2 = 0;
-    for(int i=0; i<xs.length-2; i++){
+    for(int i=0; i<anchorFrames.length-1; i++){
       sum_distance2 += dist(xs[i], ys[i], xs[i+1], ys[i+1]);
       anchorFrames[i+1] = int(frames * (sum_distance2 / sum_distance));
-      println("anchorFrames: " + anchorFrames[i+1]);
+      println("anchorFrames1: " + anchorFrames[i+1]);
     }
     anchorFrames[0] = 0;
-    anchorFrames[xs.length-1] = frames - 1;
+    anchorFrames[anchorFrames.length-1] = frames - 1;
+    for(int i=0; i<anchorFrames.length; i++){
+      println("anchorFrames2: " + anchorFrames[i]);
+    }
     
-    for(int i=0; i<anchorFrames.length-2; i++){
+    for(int i=0; i<anchorFrames.length-1; i++){
       int startFrame = anchorFrames[i];
       int x1 = xs[i];
       int y1 = ys[i];
@@ -178,6 +171,7 @@ class Flow{
   void start(){
     startMode = true;
     stopMode = false;
+    enabled = true;
   }
   
   void stop(){
@@ -185,106 +179,96 @@ class Flow{
     stopMode = true;
   }
   
-  void draw(PGraphics pgb, PGraphics pg, boolean debug){  
+  void draw(PGraphics pgb, PGraphics pg){  
+    if(!enabled){
+      // avoid useless computation.
+      return; 
+    }
     
-    if(debug){
-      String text = "";
+    if(processing_debug){
+      String text = "FrameArray: ";
       for(int i=0; i<frameArray.length; i++){
         text += frameArray[i] + ", ";
       }
-      println(text);      
+      println(text);  
+      
+      setPG_stroke(pgb, RED, 10, 255);
+      setPG_fill(pgb, TRANSPARENT, 0);
+      for(int i=0; i<anchorFrames.length; i++){
+        int anchorFrame = anchorFrames[i];
+        PVector pv = flowArray[anchorFrame];
+        if(pv != null){
+          pgb.ellipse(pv.x -10, pv.y -10, 20, 20);
+        }else{
+          println("ERROR");
+        }
+      }    
     }
 
+    // Start showing object if previous object is at good location
     if(startMode){
       int startLine = flowArray.length / frameArray.length;
-      
       boolean allStarted = true;
       for(int i=0; i<frameArray.length; i++){
         if(i==0){
           if(frameArray[0]==-1){
             frameArray[0] = 0;
           }
-          
         }else{
           if(frameArray[i]==-1 && frameArray[i-1] == startLine){
             frameArray[i] = 0;
           }
         }
-        
         if(frameArray[i] == -1){
           allStarted = false; 
         }
       }
-      
       if(allStarted){
         startMode = false; 
       }
     }
     
-
-    
-    // Draw
+    // Draw object which are started
+    int itemWidth = pg.width;
+    int itemHeight = pg.height;
     for(int i=0; i<frameArray.length; i++){
       if(frameArray[i] == -1){
         continue; 
       }  
-      
       PVector pv = flowArray[frameArray[i]];
       if(pv != null){
-        pgb.image(pg, pv.x, pv.y);
+        pgb.image(pg, pv.x - itemWidth, pv.y - itemHeight);
       }else{
         println("ERROR");
       } 
     }
     
+    // Update frame
     int frameMax = flowArray.length - 1;
     for(int i=0; i<frameArray.length; i++){
       if(frameArray[i] == -1){
         continue; 
       }
-      
       if(frameArray[i] == frameMax){
         if(stopMode){
-          frameArray[i] = -1; 
+          frameArray[i] = -1;
+          boolean allMinus1 = true;
+          for(int j=0; j<frameArray.length; j++){
+            if(frameArray[j] != -1){
+              allMinus1 = false;
+            }
+          }
+          if(allMinus1){
+            // all object are stopped. Disable drawing.
+            enabled = false; 
+          }
         }else{
           frameArray[i] = 0; 
         }
       }else{
         frameArray[i] = frameArray[i] +1;
-      } 
+      }
     }
-    
-    if(debug){
-      for(int i=0; i<flowArray.length-1; i++){
-        if(i%10 != 0){
-          continue;
-        }
-        
-        PVector pv = flowArray[i];
-        if(pv != null){
-          pgb.ellipse(pv.x, pv.y, 5, 5);
-        }else{
-          println("ERROR");
-        } 
-      }      
-    }
-
-  }
-  
-}
-
-void saveCurrentFrame(PGraphics pg, String fileName){
-  if(!common_save_enabled) return;
-  
-  switch(common_save_mode){
-    case SAVE_MODE_BACKGROUND:
-      save(fileName);
-      break;
-    case SAVE_MODE_TRANSPARENT:
-      pg.save(fileName);
-      break;
-    default:
-      println("ERROR: saveCurrentFrame");
   }
 }
 
@@ -441,6 +425,16 @@ PGraphics getPG_rectText(int width_, int height_,int r,
   pg.endDraw();
   return pg;
 }
+
+
+void drawPG_ellipse(){
+  
+}
+
+void getPG_ellipse(){
+  
+}
+
 
 
 /*
@@ -942,37 +936,5 @@ void setPG_fill(PGraphics pg, int fillColor, int fillAlpha){
       pg.fill(127, 140, 141, fillAlpha); break;
     default:
       println("ERROR: COLOR HAS PROBLEM");
-  }
-}
-
-void drawPG_grid(PGraphics pg, int strokeColor, int strokeWeight_, 
-              int strongStrokeWeight, int strokeAlpha,
-              int wPitch, int wsPitch, int hPitch, int hsPitch){  
-
-  if(!common_guidegrid_enabled) return;
-  
-  for(int x=wPitch; x<width; x+=wPitch){
-      if(x % wsPitch == 0){
-          drawPG_line(pg, x, 0, x, pg.height, strokeColor, strongStrokeWeight, strokeAlpha);
-      }else{
-          drawPG_line(pg, x, 0, x, pg.height, strokeColor, strokeWeight_, strokeAlpha);
-      }
-  }
-  
-  for(int y=hPitch; y<height; y+=hPitch){
-      if(y % hsPitch == 0){
-          drawPG_line(pg, 0, y, pg.width, y, strokeColor, strongStrokeWeight, strokeAlpha);
-      }else{
-          drawPG_line(pg, 0, y, pg.width, y, strokeColor, strokeWeight_, strokeAlpha);
-      }
-  }
-}
-
-void drawPG_mouseXY(PGraphics pg){
-  if(mousePressed == true){
-    int drawX = pg.width - 250;
-    int drawY = pg.height - 50;
-    String text = "X:" + mouseX + ", Y:" + mouseY;
-    drawPG_text(pg, drawX, drawY, text, 32, BLACK, 255);
   }
 }

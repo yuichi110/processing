@@ -2,8 +2,7 @@ PGraphics network1_background;
 PGraphics network1_packet;
 
 void network1_settings(){
- common_guidegrid_enabled = false;
- size(1800, 1000); 
+ size(1600, 900); 
 }
 
 void network1_setup(){
@@ -12,15 +11,10 @@ void network1_setup(){
   makePacket();
 }
 
-void network1_draw(){
-  background(255);
-  
-  PGraphics pgb = createGraphics(width, height);
-  pgb.beginDraw();
+void network1_draw(PGraphics pgb){
   pgb.image(network1_background, 0, 0);
   
   int f = frameCount % 300;
-  boolean debug = false;
   int x1 = 125;
   int y1 = 150;
   int x2 = 350;
@@ -31,15 +25,10 @@ void network1_draw(){
   int y4 = 225;
   int x5 = 1100;
   int y5 = 225;
-  
-  movePG(pgb, network1_packet, x1, y1, 0, x2, y2, 0, f, 50, 100, debug);
-  movePG(pgb, network1_packet, x2, y2, 0, x3, y3, 0, f, 100, 150, debug);
-  movePG(pgb, network1_packet, x3, y3, 0, x4, y4, 0, f, 150, 200, debug);
-  movePG(pgb, network1_packet, x4, y4, 0, x5, y5, 0, f, 200, 250, debug);
-  
-  drawPG_grid(pgb, CONCRETE, 1, 2, 255, 50, 250, 50, 250); 
-  pgb.endDraw();
-  image(pgb, 0, 0);
+  movePG(pgb, network1_packet, x1, y1, 0, x2, y2, 0, f, 50, 100);
+  movePG(pgb, network1_packet, x2, y2, 0, x3, y3, 0, f, 100, 150);
+  movePG(pgb, network1_packet, x3, y3, 0, x4, y4, 0, f, 150, 200);
+  movePG(pgb, network1_packet, x4, y4, 0, x5, y5, 0, f, 200, 250);
 }
 
 void makePacket(){

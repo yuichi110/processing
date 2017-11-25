@@ -1,24 +1,13 @@
 
 void network_test_settings(){
- size(1200, 900); 
+ size(1600, 900); 
 }
 
-void network_test_setup(){
-  // global
-  common_guidegrid_enabled = false;
-  common_save_enabled = false;
-  common_save_mode = SAVE_MODE_TRANSPARENT ;
-  
+void network_test_setup(){  
   frameRate(50);
 }
 
-void network_test_draw(){
-  background(255); 
-  PGraphics pgb = createGraphics(width, height);
-  pgb.beginDraw();
-  pgb.fill(255, 100);
-  
-  //TEST
+void network_test_draw(PGraphics pgb){
   boolean m = false;
   if(m){
     
@@ -40,17 +29,7 @@ void network_test_draw(){
     }else{
       network_test_drawBriefFormats(pgb);
     }   
-  }
-  
-  drawPG_grid(pgb, CONCRETE, 1, 2, 255, 50, 250, 50, 250); 
-  drawPG_mouseXY(pgb);
-  
-  pgb.endDraw();
-  image(pgb, 0, 0);  
-  if(frameCount <= 200){
-    String fileName = String.format("%04d", frameCount) + ".png";
-    saveCurrentFrame(pgb, fileName);
-  }
+  } 
 }
 
 void network_test_drawBriefFormats(PGraphics pgb){
